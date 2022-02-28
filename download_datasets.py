@@ -4,9 +4,12 @@ from requests.exceptions import RequestException
 
 download_dir = "downloads"
 
-url_red_wine = 'https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv'
-url_white_wine = 'https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv'
-url_house_prices = 'https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data'
+url_red_wine = ('https://archive.ics.uci.edu/ml/machine-learning-databases/'
+                'wine-quality/winequality-red.csv')
+url_white_wine = ('https://archive.ics.uci.edu/ml/machine-learning-databases/'
+                  'wine-quality/winequality-white.csv')
+url_house_prices = ('https://archive.ics.uci.edu/ml/machine-learning-databases/'
+                    'housing/housing.data')
 urls = [url_red_wine, url_white_wine, url_house_prices]
 
 def download_url(url, directory):
@@ -28,7 +31,6 @@ def download_url(url, directory):
             os.makedirs(directory)
             print(directory + " folder has been created.")
 
-
         with open(directory + '/' + url.split("/")[-1], 'wb') as f:
             f.write(r.content)
     except RequestException as e:
@@ -39,3 +41,6 @@ if __name__ == '__main__':
 
     for url in urls:
         download_url(url, download_dir)
+
+    print("All the datasets has been downloaded in the {0}/ folder"
+            .format(download_dir))
