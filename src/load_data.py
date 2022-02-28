@@ -10,6 +10,7 @@ houses_file = "downloads/housing.data"
 def read_data(func, *args, **kwargs):
     """
     Read data file with given parsing function and arguments.
+    
     Example:
         df = read_data(pd.read_csv, filepath_or_buffer=filename.csv, sep=';')
     """

@@ -1,3 +1,17 @@
+#!/usr/bin/env python3
+"""
+This script downloads the Wine quality and Boston house prices datasets.
+
+The datasets are downloaded in the downloads/ folder.
+Both datasets are downloaded from the UCI Machine Learning Repositiory.
+
+@Author:    Adrien Chassignet
+@Date:      Feb 28 2022 
+@Version:   1.0
+@Links:     https://archive.ics.uci.edu/ml/datasets/wine+quality
+            https://archive.ics.uci.edu/ml/machine-learning-databases/housing/
+"""
+
 import os
 import requests
 from requests.exceptions import RequestException
