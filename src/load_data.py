@@ -4,8 +4,8 @@ import pandas as pd
 VERBOSE = True
 
 # Read datasets
-redwine_df = pd.read_csv("../data/winequality-red.csv", sep=';')
-whitewine_df = pd.read_csv("::/data/winequality-white.csv", sep=';')
+redwine_df = pd.read_csv("downloads/winequality-red.csv", sep=';')
+whitewine_df = pd.read_csv("downloads/winequality-white.csv", sep=';')
 
 # Concatenate the two type of wine datasets
 wine_df = pd.concat([redwine_df, whitewine_df])
