@@ -47,4 +47,4 @@ if __name__ == '__main__':
         house_df.info()
 
     # Remove wines with unvalid quality scores
-    wine_df = wine_df[wine_df.iloc[:, -1].between(0, 10, inclusive=True)]
+    wine_df = wine_df[wine_df.iloc[:, -1].between(0, 10, inclusive='both')]
