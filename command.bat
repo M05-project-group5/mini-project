@@ -1,5 +1,4 @@
 #!bash
-conda create -n projet python=3.9 numpy pandas
-conda activate projet
+conda install numpy pandas scikit-learn
 
 python ./src/load_data.py
