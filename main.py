@@ -17,7 +17,7 @@ from preprocessing_data import (get_polynomial_features,
                                 min_max_scaling,
                                 z_normalisation)
 from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
 
 DATASETS = ['wine', 'houses']
@@ -92,9 +92,7 @@ if __name__ == "__main__":
     if args.model == MODELS[0]:
         model = LinearRegression()
     elif args.model == MODELS[1]:
-        print('Regression trees not implemented yet.')
-        sys.exit()
-        #model = DecisionTreeClassifier(random_state=args.seed)
+        model = DecisionTreeRegressor(random_state=args.seed)
     
     model.fit(x_train, y_train)
 

@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier as decision_tree
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.linear_model import LinearRegression
 
 def regression_trees(df_test, df_train, rs=None):
@@ -23,7 +23,7 @@ def regression_trees(df_test, df_train, rs=None):
     train_array = np.array(df_train[:])
     test_array = np.array(df_test[:])
     
-    system = decision_tree(random_state=rs)
+    system = DecisionTreeRegressor(random_state=rs)
     system.fit(train_array[:,:-1], train_array[:,-1:])
     
     if(len(df_train.columns) != len(df_test.columns)):
