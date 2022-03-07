@@ -1,10 +1,8 @@
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
 
 
-
-def splitData(df, testSize=0.5, rs=None):
+def split_data(df, testSize=0.5, rs=None):
     """
     Split in two a data frame
     The random_state is used for change the shuffling before the split
@@ -30,15 +28,15 @@ def splitData(df, testSize=0.5, rs=None):
 if __name__ == '__main__':
     print("Test split data...")
     d = {'col1': [1, 2, 3, 4, 5, 6, 7], 'col2': [2, 2, 2, 2, 2, 2, 2]}
-    train, test = splitData(pd.DataFrame(data=d), rs=50)
+    train, test = split_data(pd.DataFrame(data=d), rs=50)
     print(train)
     print(test)
     print("Test pseudo-random split...")
-    train, test = splitData(pd.DataFrame(data=d), rs=50)
+    train, test = split_data(pd.DataFrame(data=d), rs=50)
     print(train)
     print(test)
     print("Test random split...")
-    train, test = splitData(pd.DataFrame(data=d))
+    train, test = split_data(pd.DataFrame(data=d))
     print(train)
     print(test)
     print("Original data...")
