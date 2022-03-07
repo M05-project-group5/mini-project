@@ -20,10 +20,17 @@ def read_data(func, *args, **kwargs):
     """
     return func(*args, **kwargs)
 
-def load_wine_dataset():
+def load_wine_dataset(whitewine_file=whitewine_file, redwine_file=redwine_file):
     """
-    Load the wine quality dataset from "downloads/winequality-red.csv" and 
-    "downloads/winequality-white.csv". Both dataset are merged.
+    Load the wine quality dataset from given files. Both dataset are merged.
+
+    Parameters:
+    whitewine_file : string
+        Relative path to the file containing the white wine quality dataset.
+        Default is "downloads/winequality-white.csv".
+    redwine_file : string
+        Relative path to the file containing the red wine quality dataset
+        Default is "downloads/winequality-red.csv".
 
     Return:
     df : pandas.DataFrame
@@ -41,10 +48,14 @@ def load_wine_dataset():
 
     return wine_df
 
-def load_houses_dataset():
+def load_houses_dataset(houses_file=houses_file):
     """
-    Load the Boston house prices dataset from "downloads/housing.data".
-
+    Load the Boston house prices dataset from the given file.
+    
+    Parameters:
+    houses_file : string
+        Relative path to the file containing the Boston house prices dataset.
+        Default is "downloads/housing.data".
     Return:
     df : pandas.DataFrame
         Boston house prices loaded data
