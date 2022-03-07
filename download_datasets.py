@@ -26,6 +26,19 @@ url_house_prices = ('https://archive.ics.uci.edu/ml/machine-learning-databases/'
                     'housing/housing.data')
 urls = [url_red_wine, url_white_wine, url_house_prices]
 
+def download_wine():
+    """
+    Download the 2 wine quality datasets in the downloads/ folder.
+    """
+    download_url(url_red_wine, download_dir)
+    download_url(url_white_wine, download_dir)
+
+def download_houses():
+    """
+    Download the Boston house prices dataset in the downloads/ folder.
+    """
+    download_url(url_house_prices, download_dir)
+
 def download_url(url, directory):
     """
     Download file from input url in the given directory folder.

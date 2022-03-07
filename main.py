@@ -7,11 +7,12 @@ model fitting pipeline.
 @Date:      Feb 28 2022 
 @Version:   1.0
 """
-from statistics import mean
 import sys
 sys.path.insert(1, 'src')
 
+import os
 import argparse
+from download_datasets import download_wine, download_houses
 from load_data import load_dataset
 from split_data import split_data
 from preprocessing_data import (get_polynomial_features,
@@ -19,6 +20,10 @@ from preprocessing_data import (get_polynomial_features,
                                 z_normalisation)
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
+
+redwine_file = "downloads/winequality-red.csv"
+whitewine_file = "downloads/winequality-white.csv"
+houses_file = "downloads/housing.data"
 
 DATASETS = ['wine', 'houses']
 SEEDS = range(4)
@@ -67,8 +72,17 @@ if __name__ == "__main__":
     for arg in vars(args):
         print(arg, getattr(args, arg))
 
-    # Load dataset
-    # TODO: check if files has been downloaded and download if not the case
+    # Load dataset (download it if not the already the case)
+    if args.dataset == DATASETS[0]:
+        if ((not os.path.isfile(redwine_file)) or
+                (not os.path.isfile(whitewine_file))):
+            download_wine()
+            print("Wine dataset downloaded.")
+    elif args.dataset == DATASETS[1]:
+        if not os.path.isfile(houses_file):
+            download_houses()
+            print("Boston house prices dataset downloaded.")
+    
     data = load_dataset(name=args.dataset)
 
     # Split data
