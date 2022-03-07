@@ -22,7 +22,7 @@ from sklearn.metrics import mean_absolute_error
 
 DATASETS = ['wine', 'houses']
 SEEDS = range(4)
-PREPROCESSING = ['min-max', 'z-normalisation'],
+PREPROCESSING = ['min-max', 'z-normalisation']
 MODELS = ['linear-regression', 'regression-trees']
 METRICS = ['mae']
 
