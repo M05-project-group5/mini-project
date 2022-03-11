@@ -42,7 +42,7 @@ def z_normalisation(df_test, df_train):
     df_test[:] = scaler.transform(df_test[:])
     return df_test, df_train
 
-def get_polynomial_features(df, degree=2):
+def get_polynomial_features(df, degree=2, test=False):
     """
     Give the polynomial features depending on the colum
     
@@ -51,15 +51,22 @@ def get_polynomial_features(df, degree=2):
         Data we will processing
     degree : int
         Degree of polynome we will
+    test : bool
+        If the data who is give have result in the last column
     Return:
     df : pandas.DataFrame
         Data processing
     """
     head = df.columns.tolist()
-    df = preprocessing.PolynomialFeatures(degree=degree).fit_transform(df[:])
+    if test:
+        last = df[head[-1:]]
+        df = df[head[:-1]]
+    df = preprocessing.PolynomialFeatures(degree=degree).fit_transform(df)
     df = pd.DataFrame(data=df)
-    for i in range(0,len(head)):
+    for i in range(0,len(head)-test):
         df.rename(columns={i+1: head[i]}, inplace=True)
+    if test:
+        df[head[-1:]] = last
     return df
 
 if __name__ == '__main__':
@@ -68,7 +75,7 @@ if __name__ == '__main__':
     d_test = {'col1': [2, 5], 'col2': [2, 2], 'col3': [9, 12]}
     minmax_test, minmax_train = min_max_scaling(pd.DataFrame(data=d_test), pd.DataFrame(data=d_train))
     normal_test, normal_train = z_normalisation(pd.DataFrame(data=d_test), pd.DataFrame(data=d_train))
-    polyno = get_polynomial_features(pd.DataFrame(data=d_test),3)
+    polyno = get_polynomial_features(pd.DataFrame(data=d_test), 3, True)
     print("Test preprocessing minmax...")
     print(minmax_test, "\n",minmax_train)
     print("Test preprocessing z-normal...")
