@@ -14,7 +14,7 @@ import os
 import argparse
 from download_datasets import download_wine, download_houses
 from load_data import load_dataset
-from split_data import split_data
+from split_data import split_data, split_x_y
 from preprocessing_data import (get_polynomial_features,
                                 min_max_scaling,
                                 z_normalisation)
@@ -66,11 +66,7 @@ def get_cl_args():
 
     return parser.parse_args()
     
-
-if __name__ == "__main__":
-    # Parse command line arguments
-    args = get_cl_args()
-
+def main(args):
     for arg in vars(args):
         print(arg, ": ", getattr(args, arg))
 
@@ -101,9 +97,7 @@ if __name__ == "__main__":
         data_test, data_train = z_normalisation(data_test, data_train)
 
     # Train model
-    x_train = data_train.iloc[:, :-1]
-    y_train = data_train.iloc[:, -1]
-    
+    x_train, y_train = split_x_y(data_train)
     if args.model == MODELS[0]:
         model = LinearRegression()
     elif args.model == MODELS[1]:
@@ -112,8 +106,7 @@ if __name__ == "__main__":
     model.fit(x_train, y_train)
 
     # Analyze data
-    x_test = data_test.iloc[:, :-1]
-    y_test = data_test.iloc[:, -1]
+    x_test, y_test = split_x_y(data_test)
     # Inference
     y_train_predict = model.predict(x_train)
     y_test_predict = model.predict(x_test)
@@ -123,3 +116,9 @@ if __name__ == "__main__":
         print("On the train set: \nMean absolute error= ", mae)
         mae = mean_absolute_error(y_test, y_test_predict)
         print("On the test set: \nMean absolute error= ", mae)
+
+
+if __name__ == "__main__":
+    # Parse command line arguments
+    args = get_cl_args()
+    main(args)

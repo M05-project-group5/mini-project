@@ -1,7 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-
 def split_data(df, testSize=0.5, rs=None):
     """
     Split in two a data frame
@@ -15,6 +14,7 @@ def split_data(df, testSize=0.5, rs=None):
     rs : int
         Indication for the pseudo-random split
         If it's None the function is random
+    
     Return:
     train : pandas.DataFrame
         Train split data
@@ -24,6 +24,23 @@ def split_data(df, testSize=0.5, rs=None):
     train, test = train_test_split(df, test_size=testSize, random_state=rs)
     return train, test
 
+def split_x_y(data):
+    """
+    Split the data between x, the parameters, and y, the result.
+
+    Parameters:
+    data : pandas.DataFrame
+        Data to be separated between x parameters columns and y result column
+    
+    Return:
+    x : pandas.DataFrame
+        The parameters column of the DataFrame data (all but the last column)
+    y : pandas.DataFrame
+        The result column of the DataFrame data (the last column)
+    """
+    x = data.iloc[:, :-1]
+    y = data.iloc[:, -1]
+    return x, y
 
 if __name__ == '__main__':
     print("Test split data...")
