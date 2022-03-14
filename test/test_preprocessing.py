@@ -9,6 +9,12 @@ sys.path.insert(0, '../src')
 import preprocessing_data as pr_da
 
 def test_min_max_scaling():
+    """
+    Test min_max_scaling of preprocessing
+    Control:
+        - Output values according to the input
+        - Input values are not modified by function
+    """
     d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
     d_test = [[2, 5, 5], [6, 1, 5], [8, 6, 10]]
     d_train = np.array(d_train).T
@@ -24,10 +30,15 @@ def test_min_max_scaling():
     
     assert np.allclose(rf_train, minmax_train)
     assert np.allclose(rf_test, minmax_test)
-    assert ~np.allclose(rf_train, df_train)
-    assert ~np.allclose(rf_test, df_test)
+    assert ~np.allclose(minmax_train, df_train)
+    assert ~np.allclose(minmax_test, df_test)
 
 def test_z_normalisation():
+    """
+    Test z-normalisation of preprocessing
+        - Output values according to the input
+        - Input values are not modified by function
+    """
     d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
     d_test = [[2, 5, 5], [6, 1, 5], [8, 6, 10]]
     d_train = np.array(d_train).T
@@ -45,10 +56,16 @@ def test_z_normalisation():
     
     assert np.allclose(rf_train, z_train)
     assert np.allclose(rf_test, z_test)
-    assert ~np.allclose(rf_train, df_train)
-    assert ~np.allclose(rf_test, df_test)
+    assert ~np.allclose(z_train, df_train)
+    assert ~np.allclose(z_test, df_test)
     
 def test_get_polynomial_features():
+    """
+    Test get_polynomial_features of preprocessing
+        - Output values according to the input
+        - Columns names rigth about test or not
+        - Degree of the function according to input
+    """
     d1 = [[1, 2, 3], [2, 2, 2]]
     d2 = [[1, 2, 3], [2, 2, 2], [3, 4, 5]]
     d3 = [[1, 2, 3], [2, 2, 2]]
