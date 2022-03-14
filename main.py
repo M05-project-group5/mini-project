@@ -80,6 +80,8 @@ def main(args):
         if not os.path.isfile(houses_file):
             download_houses()
             print("Boston house prices dataset downloaded.")
+    else:
+        raise Exception("Unknown dataset for this pipeline.")
     
     data = load_dataset(name=args.dataset)
 
@@ -95,6 +97,8 @@ def main(args):
         data_test, data_train = min_max_scaling(data_test, data_train)
     elif args.scaling == PREPROCESSING[1]:
         data_test, data_train = z_normalisation(data_test, data_train)
+    else:
+        raise Exception("Unknown pre-processing for this pipeline.")
 
     # Train model
     x_train, y_train = split_x_y(data_train)
@@ -102,6 +106,8 @@ def main(args):
         model = LinearRegression()
     elif args.model == MODELS[1]:
         model = DecisionTreeRegressor(random_state=args.seed)
+    else:
+        raise Exception("Unknown model for this pipeline.")
     
     model.fit(x_train, y_train)
 
@@ -116,6 +122,8 @@ def main(args):
         print("On the train set: \nMean absolute error= ", mae)
         mae = mean_absolute_error(y_test, y_test_predict)
         print("On the test set: \nMean absolute error= ", mae)
+    else:
+        raise Exception("Unknown figure of merit for this pipeline.")
 
 
 if __name__ == "__main__":
