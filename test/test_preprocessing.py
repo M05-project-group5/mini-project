@@ -39,8 +39,6 @@ def test_z_normalisation():
     m = np.mean(d_train, axis=0)
     s = np.std(d_train, axis=0)
     r_train = (d_train-m)/s
-    m = np.mean(d_test, axis=0)
-    s = np.std(d_test, axis=0)
     r_test = (d_test-m)/s
     rf_train = pd.DataFrame(data=r_train, columns=['col1','col2','col3'])
     rf_test = pd.DataFrame(data=r_test, columns=['col1','col2','col3'])
