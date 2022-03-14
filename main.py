@@ -68,7 +68,7 @@ def get_cl_args():
     
 def main(args):
     for arg in vars(args):
-        print(arg, ": ", getattr(args, arg))
+        print("{:11}->".format(arg), getattr(args, arg))
 
     # Load dataset (download it if not the already the case)
     if args.dataset == DATASETS[0]:
