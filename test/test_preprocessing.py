@@ -96,7 +96,7 @@ def test_z_normalisation_positiv():
     assert np.allclose(rf_train, minmax_train)
     assert np.allclose(rf_test, minmax_test)
     assert (minmax_test.min().min() >= -1.0 and minmax_test.max().max() <= 1.0)
-    assert (minmax_train.min().min() >= -1.0 and minmax_train.max().max() <= 1.0
+    assert (minmax_train.min().min() >= -1.0 and minmax_train.max().max() <= 1.0)
     assert np.all([[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]] == d_train.T)
     assert np.all([[2, 5, 5], [6, 6, 5], [8, 11, 10]] == d_test.T)
     
@@ -127,7 +127,7 @@ def test_z_normalisation_negativ():
     assert np.allclose(rf_train, minmax_train)
     assert np.allclose(rf_test, minmax_test)
     assert (minmax_test.min().min() >= -1.0 and minmax_test.max().max() <= 1.0)
-    assert (minmax_train.min().min() >= -1.0 and minmax_train.max().max() <= 1.0
+    assert (minmax_train.min().min() >= -1.0 and minmax_train.max().max() <= 1.0)
     assert np.all([[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]] == d_train.T)
     assert np.all([[2, 5, 5], [6, 6, 5], [8, 11, 10]] == d_test.T)
 
