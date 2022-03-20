@@ -8,14 +8,12 @@ model fitting pipeline.
 @Version:   1.0
 """
 import sys
-sys.path.insert(1, 'src')
-
 import os
 import argparse
 from download_datasets import download_wine, download_houses
-from load_data import load_dataset
-from split_data import split_data, split_x_y
-from preprocessing_data import (get_polynomial_features,
+from src.load_data import load_dataset
+from src.split_data import split_data, split_x_y
+from src.preprocessing_data import (get_polynomial_features,
                                 min_max_scaling,
                                 z_normalisation)
 from sklearn.linear_model import LinearRegression
@@ -31,7 +29,7 @@ PREPROCESSING = ['min-max', 'z-normalisation']
 MODELS = ['linear-regression', 'regression-trees']
 METRICS = ['mae']
 
-def get_cl_args():
+def get_cl_args(args=sys.argv[1:]):
     """
     Parse the command line (sys.argv) to select elements of the pipeline.
 
@@ -43,7 +41,7 @@ def get_cl_args():
     parser = argparse.ArgumentParser(description='Analyze datasets with ML '
                                     'regression techniques.')
 
-    parser.add_argument('--dataset', action='store', choices=DATASETS,
+    parser.add_argument('-d', '--dataset', action='store', choices=DATASETS,
                         help='Dataset to use between wine quality and Boston '
                         'house prices datasets.', default=DATASETS[0])
     parser.add_argument('--seed', action='store', type=int,
@@ -57,14 +55,14 @@ def get_cl_args():
     parser.add_argument('--polynomial', action='store_true', 
                         help='Use polynomial features instead of orginial ones '
                         'for pre-processing')
-    parser.add_argument('--model', action='store', choices=MODELS,
+    parser.add_argument('-m', '--model', action='store', choices=MODELS,
                         help='Select the ML model that will be used to analyze '
                         'the data.', default=MODELS[0])
     parser.add_argument('--metrics', action='store', choices=METRICS,
                         help='Choose the metrics used as a measure of success '
                         'of the chosen model.', default=METRICS[0])
 
-    return parser.parse_args()
+    return parser.parse_args(args)
     
 def main(args):
     for arg in vars(args):
