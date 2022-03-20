@@ -37,7 +37,7 @@ More information on the project.
 ## Choose blocks of the pipeline
 Run the main script with command-line arguments to select and change different elements of the pipeline.
 Below is the help informations provided for the main script:
-  ```sh
+
   usage: main.py [-h] [-d {wine,houses}] [--seed SEED] [--scaling {min-max,z-normalisation}] [--polynomial]
                  [-m {linear-regression,regression-trees}] [--metrics {mae}]
 
@@ -55,7 +55,7 @@ Below is the help informations provided for the main script:
     -m {linear-regression,regression-trees}, --model {linear-regression,regression-trees}
                           Select the ML model that will be used to analyze the data.
     --metrics {mae}       Choose the metrics used as a measure of success of the chosen model.
-    ```
+
     
 For example, to train a Regression trees model on the Wine quality dataset with a z-normalisation, run:
  ```sh
