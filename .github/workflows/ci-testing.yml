@@ -29,18 +29,17 @@ jobs:
       # Action provided by GitHub to checkout code
       - name: Check out repository code
         uses: actions/checkout@v2
-
-      # Action provided by "conda-incubator" to setup conda env
-      - name: Setup miniconda
-        uses: conda-incubator/setup-miniconda@v2
+        
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          miniconda-version: "latest"
-          python-version: ${{ matrix.python-version }}
-          auto-update-conda: true
-          auto-activate-base: false
-          activate-environment: project
-          environment-file: environment.yml
-
+         python-version: ${{ matrix.python-version }}
+         
+      - name: Install dependencies
+        run: |
+         # $CONDA is an environment variable pointing to the root of the miniconda directory
+          $CONDA/bin/conda env update --file environment.yml --name base
+      
       # Default action: run something
       - name: Run tests
         shell: bash -l {0}
