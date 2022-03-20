@@ -54,11 +54,9 @@ Below is the help informations provided for the main script:
     --polynomial          Use polynomial features instead of orginial ones for pre-processing
     -m {linear-regression,regression-trees}, --model {linear-regression,regression-trees}
                           Select the ML model that will be used to analyze the data.
-    --metrics {mae}       Choose the metrics used as a measure of success of the chosen model.
-    
-    ```
+    --metrics {mae}       Choose the metrics used as a measure of success of the chosen model.```
    
-<br />    
+  
 For example, to train a Regression trees model on the Wine quality dataset with a z-normalisation, run:
     ```sh
     python main.py -d wine --scaling z-normalisation -m regression-trees
