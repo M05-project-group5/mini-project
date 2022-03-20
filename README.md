@@ -57,11 +57,11 @@ Below is the help informations provided for the main script:
        --metrics {mae}       Choose the metrics used as a measure of success of the chosen model.
        ```
   
-For example, to train a Regression trees model on the Wine quality dataset with a z-normalisation, run:
-      ```sh
-      python main.py -d wine --scaling z-normalisation -m regression-trees
-      ```
+For example, to train a Regression trees model on the Wine quality dataset with a z-normalisation, run: <br \>
+   ```sh
+   python main.py -d wine --scaling z-normalisation -m regression-trees
+   ```
  
  ## Authors
- Cédric Mariéthoz__
+ Cédric Mariéthoz<br \>
  Adrien Chassignet
