@@ -58,9 +58,9 @@ Below is the help informations provided for the main script:
        ```
   
 For example, to train a Regression trees model on the Wine quality dataset with a z-normalisation, run:
-    ```sh
-    python main.py -d wine --scaling z-normalisation -m regression-trees
-    ```
+      ```sh
+      python main.py -d wine --scaling z-normalisation -m regression-trees
+      ```
  
  ## Authors
  Cédric Mariéthoz__
