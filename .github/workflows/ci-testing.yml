@@ -38,7 +38,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           auto-update-conda: true
           auto-activate-base: true
-          activate-environment: ""
+          activate-environment: project
           environment-file: environment.yml
 
       # Default action: run something
