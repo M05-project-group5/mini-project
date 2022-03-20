@@ -37,6 +37,7 @@ More information on the project.
 ## Choose blocks of the pipeline
 Run the main script with command-line arguments to select and change different elements of the pipeline.
 Below is the help informations provided for the main script:
+
       usage: main.py [-h] [-d {wine,houses}] [--seed SEED] [--scaling {min-max,z-normalisation}] [--polynomial]
                     [-m {linear-regression,regression-trees}] [--metrics {mae}]
 
