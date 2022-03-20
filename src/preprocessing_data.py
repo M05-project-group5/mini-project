@@ -17,7 +17,7 @@ def min_max_scaling(df_test, df_train):
     df_train : pandas.DataFrame
         Data train processing
     """
-    scaler = preprocessing.MinMaxScaler().fit(df_train)
+    scaler = preprocessing.MinMaxScaler(clip=True).fit(df_train)
     df_train[:] = scaler.transform(df_train[:])
     df_test[:] = scaler.transform(df_test[:])
     return df_test, df_train
@@ -40,7 +40,7 @@ def z_normalisation(df_test, df_train):
     scaler = preprocessing.StandardScaler().fit(df_train)
     df_train[:] = scaler.transform(df_train[:])
     df_test[:] = scaler.transform(df_test[:])
-    return df_test, df_train
+    return np.clip(df_test, -1, 1), np.clip(df_train, -1, 1)
 
 def get_polynomial_features(df, degree=2, test=False):
     """
