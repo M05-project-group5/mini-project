@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false  # avoids cancelled builds if the other fails
       matrix:
-        python-version: ["3.8", "3.9"]
+        python-version: ["3.8"]
 
     # Here we define the steps to be undertaken for every test
     # -- Each step does one action.  Code for the action sits in
@@ -46,7 +46,7 @@ jobs:
         shell: bash -l {0}
         run: |
           conda info -a
-          pytest -sv --cov=. test.py
+          pytest -sv --cov=. 
       - name: Upload coverage to coveralls.io
         shell: bash -l {0}
         env:
