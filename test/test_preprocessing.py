@@ -26,8 +26,8 @@ def test_min_max_scaling_positiv():
     
     r_train = d_train/10
     r_test = d_test/10
-    np.clip(r_train,0,1)
-    np.clip(r_test,0,1)
+    r_train = np.clip(r_train,0,1)
+    r_test = np.clip(r_test,0,1)
     rf_train = pd.DataFrame(data=r_train)
     rf_test = pd.DataFrame(data=r_test)
     
@@ -36,7 +36,7 @@ def test_min_max_scaling_positiv():
     assert (minmax_test.min().min() >= 0 and minmax_test.max().max() <= 1)
     assert (minmax_train.min().min() >= 0 and minmax_train.max().max() <= 1)
     assert np.all([[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]] == d_train.T)
-    assert np.all([[2, 5, 5], [6, 1, 5], [8, 6, 10]] == d_test.T)
+    assert np.all([[2, 5, 5], [6, 6, 5], [8, 11, 10]] == d_test.T)
 
 def test_min_max_scaling_negativ():
     """
@@ -56,8 +56,8 @@ def test_min_max_scaling_negativ():
     
     r_train = (d_train+5)/10
     r_test = (d_test+5)/10
-    np.clip(r_train,0,1)
-    np.clip(r_test,0,1)
+    r_train = np.clip(r_train,0,1)
+    r_test = np.clip(r_test,0,1)
     rf_train = pd.DataFrame(data=r_train)
     rf_test = pd.DataFrame(data=r_test)
     
@@ -93,10 +93,10 @@ def test_z_normalisation_positiv():
     rf_train = pd.DataFrame(data=r_train, columns=['col1','col2','col3'])
     rf_test = pd.DataFrame(data=r_test, columns=['col1','col2','col3'])
     
-    assert np.allclose(rf_train, minmax_train)
-    assert np.allclose(rf_test, minmax_test)
-    assert (minmax_test.min().min() >= -1.0 and minmax_test.max().max() <= 1.0)
-    assert (minmax_train.min().min() >= -1.0 and minmax_train.max().max() <= 1.0)
+    assert np.allclose(rf_train, z_train)
+    assert np.allclose(rf_test, z_test)
+    assert (z_test.min().min() >= -1.0 and z_test.max().max() <= 1.0)
+    assert (z_train.min().min() >= -1.0 and z_train.max().max() <= 1.0)
     assert np.all([[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]] == d_train.T)
     assert np.all([[2, 5, 5], [6, 6, 5], [8, 11, 10]] == d_test.T)
     
@@ -124,12 +124,13 @@ def test_z_normalisation_negativ():
     rf_train = pd.DataFrame(data=r_train, columns=['col1','col2','col3'])
     rf_test = pd.DataFrame(data=r_test, columns=['col1','col2','col3'])
     
-    assert np.allclose(rf_train, minmax_train)
-    assert np.allclose(rf_test, minmax_test)
-    assert (minmax_test.min().min() >= -1.0 and minmax_test.max().max() <= 1.0)
-    assert (minmax_train.min().min() >= -1.0 and minmax_train.max().max() <= 1.0)
-    assert np.all([[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]] == d_train.T)
-    assert np.all([[2, 5, 5], [6, 6, 5], [8, 11, 10]] == d_test.T)
+
+    assert np.allclose(rf_train, z_train)
+    assert np.allclose(rf_test, z_test)
+    assert (z_test.min().min() >= -1.0 and z_test.max().max() <= 1.0)
+    assert (z_train.min().min() >= -1.0 and z_train.max().max() <= 1.0)
+    assert np.all([[-5, 0, -4, -3, -2, -1, 0, 1, 5, 0], [0, -5, 0, 1, -3, -2, -4, -1, 0, 5], [-5, -5, -4, -2, -5, -3, -4, 0, 5, 5]] == d_train.T)
+    assert np.all([[2, 5, 5], [-5, 1, 0], [-3, 6, 5]] == d_test.T)
 
 def test_get_polynomial_features():
     """
