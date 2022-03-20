@@ -37,7 +37,7 @@ jobs:
           miniconda-version: "latest"
           python-version: ${{ matrix.python-version }}
           auto-update-conda: true
-          auto-activate-base: false
+          auto-activate-base: true
           activate-environment: ""
           environment-file: environment.yml
 
