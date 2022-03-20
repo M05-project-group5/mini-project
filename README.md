@@ -37,25 +37,25 @@ More information on the project.
 ## Choose blocks of the pipeline
 Run the main script with command-line arguments to select and change different elements of the pipeline.
 Below is the help informations provided for the main script:
-   ```sh
-   usage: main.py [-h] [-d {wine,houses}] [--seed SEED] [--scaling {min-max,z-normalisation}] [--polynomial]
-                 [-m {linear-regression,regression-trees}] [--metrics {mae}]
+      ```
+      usage: main.py [-h] [-d {wine,houses}] [--seed SEED] [--scaling {min-max,z-normalisation}] [--polynomial]
+                    [-m {linear-regression,regression-trees}] [--metrics {mae}]
 
-   Analyze datasets with ML regression techniques.
+      Analyze datasets with ML regression techniques.
 
-   optional arguments:
-    -h, --help            show this help message and exit
-    -d {wine,houses}, --dataset {wine,houses}
-                          Dataset to use between wine quality and Boston house prices datasets.
-    --seed SEED           Seed for the pseudo-RNG used to split the data and to initialize the models. If no seed is given
-                          by the user, the system will be fully random.
-    --scaling {min-max,z-normalisation}
-                          Select the scaling pre-processing technique to apply to the features.
-    --polynomial          Use polynomial features instead of orginial ones for pre-processing
-    -m {linear-regression,regression-trees}, --model {linear-regression,regression-trees}
-                          Select the ML model that will be used to analyze the data.
-    --metrics {mae}       Choose the metrics used as a measure of success of the chosen model.```
-   
+      optional arguments:
+       -h, --help            show this help message and exit
+       -d {wine,houses}, --dataset {wine,houses}
+                             Dataset to use between wine quality and Boston house prices datasets.
+       --seed SEED           Seed for the pseudo-RNG used to split the data and to initialize the models. If no seed is given
+                             by the user, the system will be fully random.
+       --scaling {min-max,z-normalisation}
+                             Select the scaling pre-processing technique to apply to the features.
+       --polynomial          Use polynomial features instead of orginial ones for pre-processing
+       -m {linear-regression,regression-trees}, --model {linear-regression,regression-trees}
+                             Select the ML model that will be used to analyze the data.
+       --metrics {mae}       Choose the metrics used as a measure of success of the chosen model.
+       ```
   
 For example, to train a Regression trees model on the Wine quality dataset with a z-normalisation, run:
     ```sh
