@@ -55,6 +55,7 @@ Below is the help informations provided for the main script:
     -m {linear-regression,regression-trees}, --model {linear-regression,regression-trees}
                           Select the ML model that will be used to analyze the data.
     --metrics {mae}       Choose the metrics used as a measure of success of the chosen model.
+    
     ```
    
 <br />    
