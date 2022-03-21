@@ -60,7 +60,7 @@ def load_houses_dataset(houses_file=houses_file):
         Boston house prices loaded data
     """
     # Read the two type of wine datasets
-    houses_df = read_data(pd.read_csv, houses_file, sep='\s+', header=None)
+    houses_df = read_data(pd.read_csv, houses_file, sep=r'\s+', header=None)
     # Quality check
     quality_check(houses_df)
 
