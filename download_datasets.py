@@ -13,6 +13,7 @@ Both datasets are downloaded from the UCI Machine Learning Repositiory.
 """
 
 import os
+import sys
 import requests
 from requests.exceptions import RequestException
 
@@ -42,7 +43,9 @@ def download_houses():
 def download_url(url, directory):
     """
     Download file from input url in the given directory folder.
-    The file is name after its name contained at the end of the url.
+
+    The file is named after its name contained at the end of the url.
+    The url must be within the list of supported urls to avoid unknown behaviors.
 
     Parameters:
     url : string
@@ -50,6 +53,9 @@ def download_url(url, directory):
     directory : string
         Name of the directory where the downloaded files will be saved
     """
+    if url not in urls:
+        print("The targeted url {} is not supported.".format(url))
+        sys.exit()
     try:
         print("Downloading from " + url)
         r = requests.get(url)
