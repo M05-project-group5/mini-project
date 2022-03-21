@@ -64,7 +64,7 @@ def download_url(url, directory):
     except RequestException as e:
         raise SystemExit(e)
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     print('Download script starting...')
 
     for url in urls:
