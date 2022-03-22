@@ -16,18 +16,19 @@ from src.split_data import split_data, split_x_y
 from src.preprocessing_data import (get_polynomial_features,
                                 min_max_scaling,
                                 z_normalisation)
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
+from src.models import ModifiedLinearReggression, ModifiedDecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
 
 redwine_file = "downloads/winequality-red.csv"
 whitewine_file = "downloads/winequality-white.csv"
 houses_file = "downloads/housing.data"
 
-DATASETS = ['wine', 'houses']
-PREPROCESSING = ['min-max', 'z-normalisation']
-MODELS = ['linear-regression', 'regression-trees']
-METRICS = ['mae']
+DATASETS = {'wine': 'wine', 'houses': 'houses'}
+PREPROCESSING = {'min-max': min_max_scaling, 'z-normalisation': z_normalisation}
+MODELS =   {'linear-regression': ModifiedLinearReggression,
+            'regression-trees': ModifiedDecisionTreeRegressor}
+METRICS = {'mae': mean_absolute_error}
+""" Documentation of global variables"""
 
 def get_cl_args(args=sys.argv[1:]):
     """
@@ -41,26 +42,26 @@ def get_cl_args(args=sys.argv[1:]):
     parser = argparse.ArgumentParser(description='Analyze datasets with ML '
                                     'regression techniques.')
 
-    parser.add_argument('-d', '--dataset', action='store', choices=DATASETS,
+    parser.add_argument('-d', '--dataset', action='store', choices=DATASETS.keys(),
                         help='Dataset to use between wine quality and Boston '
-                        'house prices datasets.', default=DATASETS[0])
+                        'house prices datasets.', default=list(DATASETS)[0])
     parser.add_argument('--seed', action='store', type=int,
                         help='Seed for the pseudo-RNG used to split the data '
                         'and to initialize the models. '
                         'If no seed is given by the user, the system will be '
                         'fully random.', default=None)
-    parser.add_argument('--scaling', action='store', choices=PREPROCESSING,
+    parser.add_argument('--scaling', action='store', choices=PREPROCESSING.keys(),
                         help='Select the scaling pre-processing technique to '
-                        'apply to the features.', default=PREPROCESSING[0])
+                        'apply to the features.', default=list(PREPROCESSING)[0])
     parser.add_argument('--polynomial', action='store_true', 
                         help='Use polynomial features instead of orginial ones '
                         'for pre-processing')
-    parser.add_argument('-m', '--model', action='store', choices=MODELS,
+    parser.add_argument('-m', '--model', action='store', choices=MODELS.keys(),
                         help='Select the ML model that will be used to analyze '
-                        'the data.', default=MODELS[0])
-    parser.add_argument('--metrics', action='store', choices=METRICS,
+                        'the data.', default=list(MODELS)[0])
+    parser.add_argument('--metrics', action='store', choices=METRICS.keys(),
                         help='Choose the metrics used as a measure of success '
-                        'of the chosen model.', default=METRICS[0])
+                        'of the chosen model.', default=list(METRICS)[0])
 
     return parser.parse_args(args)
     
@@ -69,21 +70,19 @@ def main(args):
         print("{:11}->".format(arg), getattr(args, arg))
 
     # Load dataset (download it if not the already the case)
-    if args.dataset == DATASETS[0]:
+    if args.dataset == 'wine':
         if ((not os.path.isfile(redwine_file)) or
                 (not os.path.isfile(whitewine_file))):
             download_wine()
             print("Wine dataset downloaded.")
-    elif args.dataset == DATASETS[1]:
+    elif args.dataset == 'houses':
         if not os.path.isfile(houses_file):
             download_houses()
             print("Boston house prices dataset downloaded.")
     else:
         raise Exception("Unknown dataset for this pipeline.")
     
-    data = load_dataset(name=args.dataset)
-
-    # Split data
+    data = load_dataset(name=DATASETS[args.dataset])
     data_train, data_test = split_data(data, rs=args.seed)
 
     # Pre-processing
@@ -91,37 +90,35 @@ def main(args):
         data_train = get_polynomial_features(data_train)
         data_test = get_polynomial_features(data_test)
 
-    if args.scaling == PREPROCESSING[0]:
-        data_test, data_train = min_max_scaling(data_test, data_train)
-    elif args.scaling == PREPROCESSING[1]:
-        data_test, data_train = z_normalisation(data_test, data_train)
-    else:
-        raise Exception("Unknown pre-processing for this pipeline.")
+    try:
+        data_test, data_train = PREPROCESSING[args.scaling](data_test, data_train)
+    except KeyError:
+        raise RuntimeError(f"{args.scaling} is invalid for --scaling. Choose "
+                            f"between ({', '.join(PREPROCESSING.keys())})")
 
     # Train model
     x_train, y_train = split_x_y(data_train)
-    if args.model == MODELS[0]:
-        model = LinearRegression()
-    elif args.model == MODELS[1]:
-        model = DecisionTreeRegressor(random_state=args.seed)
-    else:
-        raise Exception("Unknown model for this pipeline.")
+    try:
+        model = MODELS[args.model](random_state=args.seed)
+        model.fit(x_train, y_train)
+    except KeyError:
+        raise RuntimeError(f"{args.model} is invalid for --model. Choose "
+                            f"between ({', '.join(MODELS.keys())})")
     
-    model.fit(x_train, y_train)
-
     # Analyze data
     x_test, y_test = split_x_y(data_test)
     # Inference
     y_train_predict = model.predict(x_train)
     y_test_predict = model.predict(x_test)
     #Evaluation
-    if args.metrics == METRICS[0]:
-        mae = mean_absolute_error(y_train, y_train_predict)
-        print("On the train set: \nMean absolute error= ", mae)
-        mae = mean_absolute_error(y_test, y_test_predict)
-        print("On the test set: \nMean absolute error= ", mae)
-    else:
-        raise Exception("Unknown figure of merit for this pipeline.")
+    try:
+        train_figure_of_merit = METRICS[args.metrics](y_train, y_train_predict)
+        print(f"On the train set: \n{args.metrics} = {train_figure_of_merit}")
+        test_figure_of_merit = METRICS[args.metrics](y_test, y_test_predict)
+        print(f"On the test set: \n{args.metrics} = {test_figure_of_merit}")
+    except KeyError:
+        raise RuntimeError(f"{args.metrics} is invalid for --metrics. Choose "
+                            f"between ({', '.join(METRICS.keys())})")
 
 
 if __name__ == "__main__":
