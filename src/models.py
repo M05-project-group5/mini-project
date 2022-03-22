@@ -5,6 +5,7 @@ This file contains the Machine Learning models to be tested in the pipeline.
 @Date:      Mar 22 2022 
 @Version:   1.0
 """
+
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 
@@ -24,5 +25,8 @@ class ModifiedDecisionTreeRegressor(DecisionTreeRegressor):
         """ Inherit all the methods and properties from the parent class 
         while using only expected parameters.
         """
-        rs = args['random_state']
+        try:
+            rs = args['random_state']
+        except KeyError:
+            rs = None
         super().__init__(random_state=rs)
