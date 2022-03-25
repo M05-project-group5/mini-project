@@ -11,7 +11,7 @@ def test_min_max_scaling_variant_1():
     """
     Test min_max_scaling of preprocessing
     Control:
-        - Input value did not modife
+        - Input value have not been changed
     """
     d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
     d_test = [[2, 5, 5], [6, 6, 5], [8, 11, 10]]
@@ -88,7 +88,7 @@ def test_z_normalisation_variant_1():
     """
     Test z_normalisation of preprocessing
     Control:
-        - Input value did not modife
+        - Input value have not been changed
     """
     d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
     d_test = [[2, 5, 5], [6, 6, 5], [8, 11, 10]]
@@ -168,39 +168,152 @@ def test_z_normalisation_variant_4():
     assert np.allclose(rf_train, z_train)
     assert np.allclose(rf_test, z_test)
 
-def test_get_polynomial_features():
+def test_get_polynomial_variant_1():
     """
     Test get_polynomial_features of preprocessing
-        - Output values according to the input
-        - Columns names rigth about test or not
-        - Degree of the function according to input
+    Control:
+        - Input value have not been changed
     """
-    d1 = [[1, 2, 3], [2, 2, 2]]
-    d2 = [[1, 2, 3], [2, 2, 2], [3, 4, 5]]
-    d3 = [[1, 2, 3], [2, 2, 2]]
-    d1 = np.array(d1).T
-    d2 = np.array(d2).T
-    d3 = np.array(d3).T
-    df1 = pd.DataFrame(data=d1, columns=['A','B'])
-    df2 = pd.DataFrame(data=d2, columns=['A','B','Y'])
-    df3 = pd.DataFrame(data=d3, columns=['A','B'])
-    p1 = pr_da.get_polynomial_features(df1)
-    p2 = pr_da.get_polynomial_features(df2,test=True)
-    p3 = pr_da.get_polynomial_features(df3,degree=3)
+    d = [[1, 2, 3], [2, 2, 2], [3, 4, 5]]
+    d = np.array(d).T
+    r = d.copy()
+    df = pd.DataFrame(data=d, columns=['A', 'B', 'C'])
+    p = pr_da.get_polynomial_features(df)
+
+    assert np.all(d == r)
+
+def test_get_polynomial_variant_2():
+    """
+    Test get_polynomial_features of preprocessing
+    Control:
+        - Output shape according to degree Input give
+    """
+    d = [[1, 2, 3], [2, 2, 2]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B'])
+    p1 = pr_da.get_polynomial_features(df,2)
+    p2 = pr_da.get_polynomial_features(df,4)
+    
+    s1 = p1.shape
+    s2 = p2.shape
+
+    assert np.all(s1 == (3,6))
+    assert np.all(s2 == (3,15))
+
+def test_get_polynomial_variant_3():
+    """
+    Test get_polynomial_features of preprocessing
+    Control:
+        - Output shape according to nb of columns
+    """
+    d = [[1, 2, 3], [2, 2, 2]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B'])
+    p1 = pr_da.get_polynomial_features(df)
+    d = [[1, 2, 3], [2, 2, 2], [3, 4, 5]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B', 'C'])
+    p2 = pr_da.get_polynomial_features(df)
+    
+    s1 = p1.shape
+    s2 = p2.shape
+
+    assert np.all(s1 == (3,6))
+    assert np.all(s2 == (3,10))
+
+def test_get_polynomial_variant_4():
+    """
+    Test get_polynomial_features of preprocessing
+    Control:
+        - Output shape according to test column
+    """
+    d = [[1, 2, 3], [2, 2, 2]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B'])
+    p1 = pr_da.get_polynomial_features(df, test=False)
+    d = [[1, 2, 3], [2, 2, 2], [3, 4, 5]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B', 'C'])
+    p2 = pr_da.get_polynomial_features(df, test=True)
+    
+    s1 = p1.shape
+    s2 = p2.shape
+    
+    assert np.all(s1 == (3,6))
+    assert np.all(s2 == (3,7))
+
+def test_get_polynomial_variant_5():
+    """
+    Test get_polynomial_features of preprocessing
+    Control:
+        - Output last column according to test column
+    """
+    d = [[1, 2, 3], [2, 2, 2]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B'])
+    p1 = pr_da.get_polynomial_features(df, test=False)
+    d = [[1, 2, 3], [2, 2, 2], [3, 4, 5]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B', 'C'])
+    p2 = pr_da.get_polynomial_features(df, test=True)
+    
+    c1 = p1.columns
+    c2 = p2.columns
+    v1 = p1[c1[-1]]
+    v2 = p2[c2[-1]]
+
+    assert np.all(c1 == [0, 'A', 'B', 3, 4, 5])
+    assert np.all(c2 == [0, 'A', 'B', 3, 4, 5, 'C'])
+    assert np.all(v1 == [4, 4, 4])
+    assert np.all(v2 == [3, 4, 5])
+
+def test_get_polynomial_variant_6():
+    """
+    Test get_polynomial_features of preprocessing
+    Control:
+        - Output column name according to Input
+    """
+    d = [[1, 2, 3], [2, 2, 2]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B'])
+    p1 = pr_da.get_polynomial_features(df, test=False)
+    p2 = pr_da.get_polynomial_features(df, test=True)
+    p3 = pr_da.get_polynomial_features(df, degree=3, test=False)
+    p4 = pr_da.get_polynomial_features(df, degree=3, test=True)
+    
+    c1 = p1.columns
+    c2 = p2.columns
+    c3 = p3.columns
+    c4 = p4.columns
+
+    assert np.all(c1 == [0, 'A', 'B', 3, 4, 5])
+    assert np.all(c2 == [0, 'A', 2, 'B'])
+    assert np.all(c3 == [0, 'A', 'B', 3, 4, 5, 6, 7, 8, 9])
+    assert np.all(c4 == [0, 'A', 2, 3, 'B'])
+
+def test_get_polynomial_variant_7():
+    """
+    Test get_polynomial_features of preprocessing
+    Control:
+        - Output values according to Input
+    """
+    d = [[1, 2, 3], [2, 2, 2]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B'])
+    p1 = pr_da.get_polynomial_features(df)
+    d = [[1, 2, 3], [2, 2, 2], [3, 4, 5]]
+    d = np.array(d).T
+    df = pd.DataFrame(data=d, columns=['A', 'B', 'C'])
+    p2 = pr_da.get_polynomial_features(df)
+    
     
     r1 = [[1,1,1], [1, 2, 3], [2, 2, 2], [1, 4, 9], [2, 4, 6], [4, 4, 4]]
     r1 = np.array(r1).T
-    r2 = [[1,1,1], [1, 2, 3], [2, 2, 2], [1, 4, 9], [2, 4, 6], [4, 4, 4], [3, 4, 5]]
+    r2 = [[1,1,1], [1, 2, 3], [2, 2, 2], [3, 4, 5], [1, 4, 9], [2, 4, 6], [3, 8, 15], [4, 4, 4], [6, 8, 10], [9, 16, 25]]
     r2 = np.array(r2).T
-    r3 = [[1,1,1], [1, 2, 3], [2, 2, 2], [1, 4, 9], [2, 4, 6], [4, 4, 4], [1, 8, 27], [2, 8, 18], [4, 8, 12], [8, 8, 8]]
-    r3 = np.array(r3).T
     rf1 = pd.DataFrame(data=r1, columns=[0, 'A','B', 3, 4, 5])
-    rf2 = pd.DataFrame(data=r2, columns=[0, 'A','B', 3, 4, 5, 'Y'])
-    rf3 = pd.DataFrame(data=r3, columns=[0, 'A','B', 3, 4, 5, 6, 7, 8, 9])
+    rf2 = pd.DataFrame(data=r2, columns=[0, 'A','B', 'C', 4, 5, 6, 7, 8, 9])
     
+
     assert np.allclose(rf1, p1)
     assert np.allclose(rf2, p2)
-    assert np.allclose(rf3, p3)
-    assert (rf1.columns == p1.columns).all()
-    assert (rf2.columns == p2.columns).all()
-    assert (rf3.columns == p3.columns).all()
