@@ -1,20 +1,70 @@
 import pytest
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 import sys
-sys.path.insert(0, './src')
-sys.path.insert(0, '../src')
+sys.path.insert(1, './src')
 
 import preprocessing_data as pr_da
 
-def test_min_max_scaling_positiv():
+def test_min_max_scaling_variant_1():
     """
-    Test min_max_scaling of preprocessing for positiv values
+    Test min_max_scaling of preprocessing
     Control:
-        - Output values according to the input
+        - Input value did not modife
+    """
+    d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
+    d_test = [[2, 5, 5], [6, 6, 5], [8, 11, 10]]
+    d_train = np.array(d_train).T
+    d_test = np.array(d_test).T
+    r_train = d_train.copy()
+    r_test = d_test.copy()
+    df_train = pd.DataFrame(data=d_train, columns=['col1','col2','col3'])
+    df_test = pd.DataFrame(data=d_test, columns=['col1','col2','col3'])
+    minmax_test, minmax_train = pr_da.min_max_scaling(df_test, df_train)
+    
+    assert np.all(r_train == d_train)
+    assert np.all(r_test == d_test)
+
+def test_min_max_scaling_variant_2():
+    """
+    Test min_max_scaling of preprocessing
+    Control:
         - Output values are between 0 and 1
-        - Input values are not modified by function
+    """
+    d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
+    d_test = [[2, 5, 5], [6, 6, 5], [8, 11, 10]]
+    d_train = np.array(d_train).T
+    d_test = np.array(d_test).T
+    df_train = pd.DataFrame(data=d_train, columns=['col1','col2','col3'])
+    df_test = pd.DataFrame(data=d_test, columns=['col1','col2','col3'])
+    minmax_test, minmax_train = pr_da.min_max_scaling(df_test, df_train)
+    
+    assert (minmax_test.min().min() >= 0 and minmax_test.max().max() <= 1)
+    assert (minmax_train.min().min() >= 0 and minmax_train.max().max() <= 1)
+
+def test_min_max_scaling_variant_3():
+    """
+    Test min_max_scaling of preprocessing
+    Control:
+        - Output values are between 0 and 1 for negativ Input
+    """
+    d_train = [[-5, 0, -3, -2, -1, 0, 1, 5, 0], [0, -5, 1, -3, -2, -4, -1, 0, 5], [-5, -5, -2, -5, -3, -4, 0, 5, 5]]
+    d_test = [[2, 5, -5], [-5, 1, -5], [-3, 6, -10]]
+    d_train = np.array(d_train).T
+    d_test = np.array(d_test).T
+    df_train = pd.DataFrame(data=d_train, columns=['col1','col2','col3'])
+    df_test = pd.DataFrame(data=d_test, columns=['col1','col2','col3'])
+    minmax_test, minmax_train = pr_da.min_max_scaling(df_test, df_train)
+    
+    assert (minmax_test.min().min() >= 0 and minmax_test.max().max() <= 1)
+    assert (minmax_train.min().min() >= 0 and minmax_train.max().max() <= 1)
+
+def test_min_max_scaling_variant_4():
+    """
+    Test min_max_scaling of preprocessing
+    Control:
+        - Output values accordong to the input
     """
     d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
     d_test = [[2, 5, 5], [6, 6, 5], [8, 11, 10]]
@@ -33,48 +83,71 @@ def test_min_max_scaling_positiv():
     
     assert np.allclose(rf_train, minmax_train)
     assert np.allclose(rf_test, minmax_test)
-    assert (minmax_test.min().min() >= 0 and minmax_test.max().max() <= 1)
-    assert (minmax_train.min().min() >= 0 and minmax_train.max().max() <= 1)
-    assert np.all([[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]] == d_train.T)
-    assert np.all([[2, 5, 5], [6, 6, 5], [8, 11, 10]] == d_test.T)
 
-def test_min_max_scaling_negativ():
+def test_z_normalisation_variant_1():
     """
-    Test min_max_scaling of preprocessing for positiv and negativ values
+    Test z_normalisation of preprocessing
     Control:
-        - Output values according to the input
-        - Output values are between 0 and 1
-        - Input values are not modified by function
+        - Input value did not modife
     """
-    d_train = [[-5, 0, -4, -3, -2, -1, 0, 1, 5, 0], [0, -5, 0, 1, -3, -2, -4, -1, 0, 5], [-5, -5, -4, -2, -5, -3, -4, 0, 5, 5]]
-    d_test = [[2, 5, 5], [-5, 1, 0], [-3, 6, 5]]
+    d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
+    d_test = [[2, 5, 5], [6, 6, 5], [8, 11, 10]]
+    d_train = np.array(d_train).T
+    d_test = np.array(d_test).T
+    r_train = d_train.copy()
+    r_test = d_test.copy()
+    df_train = pd.DataFrame(data=d_train, columns=['col1','col2','col3'])
+    df_test = pd.DataFrame(data=d_test, columns=['col1','col2','col3'])
+    z_test, z_train = pr_da.z_normalisation(df_test, df_train)
+    
+    assert np.all(r_train == d_train)
+    assert np.all(r_test == d_test)
+
+def test_z_normalisation_variant_2():
+    """
+    Test z_normalisation of preprocessing
+    Control:
+        - Output means and variance values are 0 and 1
+    """
+    d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
+    d_test = [[2, 5, 5], [6, 6, 5], [8, 11, 10]]
     d_train = np.array(d_train).T
     d_test = np.array(d_test).T
     df_train = pd.DataFrame(data=d_train, columns=['col1','col2','col3'])
     df_test = pd.DataFrame(data=d_test, columns=['col1','col2','col3'])
-    minmax_test, minmax_train = pr_da.min_max_scaling(df_test, df_train)
+    z_test, z_train = pr_da.z_normalisation(df_test, df_train)
     
-    r_train = (d_train+5)/10
-    r_test = (d_test+5)/10
-    r_train = np.clip(r_train,0,1)
-    r_test = np.clip(r_test,0,1)
-    rf_train = pd.DataFrame(data=r_train)
-    rf_test = pd.DataFrame(data=r_test)
-    
-    assert np.allclose(rf_train, minmax_train)
-    assert np.allclose(rf_test, minmax_test)
-    print(minmax_test)
-    assert (minmax_test.min().min() >= 0.0 and minmax_test.max().max() <= 1.0)
-    assert (minmax_train.min().min() >= 0.0 and minmax_train.max().max() <= 1.0)
-    assert np.all([[-5, 0, -4, -3, -2, -1, 0, 1, 5, 0], [0, -5, 0, 1, -3, -2, -4, -1, 0, 5], [-5, -5, -4, -2, -5, -3, -4, 0, 5, 5]] == d_train.T)
-    assert np.all([[2, 5, 5], [-5, 1, 0], [-3, 6, 5]] == d_test.T)
+    m = np.mean(z_train[:], axis=0)
+    s = np.std(z_train[:], axis=0)
 
-def test_z_normalisation_positiv():
+    assert np.allclose(m, 0.0)
+    assert np.allclose(s, 1.0)
+
+def test_z_normalisation_variant_3():
     """
-    Test z-normalisation of preprocessing for positiv values
-        - Output values according to the input
-        - Output values are between -1 and 1
-        - Input values are not modified by function
+    Test z_normalisation of preprocessing
+    Control:
+        - Output means and variance values are 0 and 1 for négative Input
+    """
+    d_train = [[-5, 0, -3, -2, -1, 0, 1, 5, 0], [0, -5, 1, -3, -2, -4, -1, 0, 5], [-5, -5, -2, -5, -3, -4, 0, 5, 5]]
+    d_test = [[2, 5, -5], [-5, 1, -5], [-3, 6, -10]]
+    d_train = np.array(d_train).T
+    d_test = np.array(d_test).T
+    df_train = pd.DataFrame(data=d_train, columns=['col1','col2','col3'])
+    df_test = pd.DataFrame(data=d_test, columns=['col1','col2','col3'])
+    z_test, z_train = pr_da.z_normalisation(df_test, df_train)
+    
+    m = np.mean(z_train[:], axis=0)
+    s = np.std(z_train[:], axis=0)
+
+    assert np.allclose(m, 0.0)
+    assert np.allclose(s, 1.0)
+
+def test_z_normalisation_variant_4():
+    """
+    Test z_normalisation of preprocessing
+    Control:
+        - Output values accordong to the input
     """
     d_train = [[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]]
     d_test = [[2, 5, 5], [6, 6, 5], [8, 11, 10]]
@@ -86,51 +159,14 @@ def test_z_normalisation_positiv():
     
     m = np.mean(d_train, axis=0)
     s = np.std(d_train, axis=0)
-    r_train = (d_train-m)/s
-    r_test = (d_test-m)/s
-    r_train = np.clip(r_train,-1,1)
-    r_test = np.clip(r_test,-1,1)
-    rf_train = pd.DataFrame(data=r_train, columns=['col1','col2','col3'])
-    rf_test = pd.DataFrame(data=r_test, columns=['col1','col2','col3'])
-    
-    assert np.allclose(rf_train, z_train)
-    assert np.allclose(rf_test, z_test)
-    assert (z_test.min().min() >= -1.0 and z_test.max().max() <= 1.0)
-    assert (z_train.min().min() >= -1.0 and z_train.max().max() <= 1.0)
-    assert np.all([[0, 0, 1, 2, 3, 4, 5, 6, 10], [0, 10, 5, 6, 2, 3, 1, 4, 0], [0, 10, 6, 8, 5, 6, 6, 10, 10]] == d_train.T)
-    assert np.all([[2, 5, 5], [6, 6, 5], [8, 11, 10]] == d_test.T)
-    
-def test_z_normalisation_negativ():
-    """
-    Test z-normalisation of preprocessing for positv and negativ values
-        - Output values according to the input
-        - Output values are between -1 and 1
-        - Input values are not modified by function
-    """
-    d_train = [[-5, 0, -4, -3, -2, -1, 0, 1, 5, 0], [0, -5, 0, 1, -3, -2, -4, -1, 0, 5], [-5, -5, -4, -2, -5, -3, -4, 0, 5, 5]]
-    d_test = [[2, 5, 5], [-5, 1, 0], [-3, 6, 5]]
-    d_train = np.array(d_train).T
-    d_test = np.array(d_test).T
-    df_train = pd.DataFrame(data=d_train, columns=['col1','col2','col3'])
-    df_test = pd.DataFrame(data=d_test, columns=['col1','col2','col3'])
-    z_test, z_train = pr_da.z_normalisation(df_test, df_train)
-    
-    m = np.mean(d_train, axis=0)
-    s = np.std(d_train, axis=0)
-    r_train = (d_train-m)/s
-    r_test = (d_test-m)/s
-    r_train = np.clip(r_train,-1,1)
-    r_test = np.clip(r_test,-1,1)
-    rf_train = pd.DataFrame(data=r_train, columns=['col1','col2','col3'])
-    rf_test = pd.DataFrame(data=r_test, columns=['col1','col2','col3'])
-    
 
+    r_train = (d_train-m)/s
+    r_test = (d_test-m)/s
+    rf_train = pd.DataFrame(data=r_train, columns=['col1','col2','col3'])
+    rf_test = pd.DataFrame(data=r_test, columns=['col1','col2','col3'])
+    
     assert np.allclose(rf_train, z_train)
     assert np.allclose(rf_test, z_test)
-    assert (z_test.min().min() >= -1.0 and z_test.max().max() <= 1.0)
-    assert (z_train.min().min() >= -1.0 and z_train.max().max() <= 1.0)
-    assert np.all([[-5, 0, -4, -3, -2, -1, 0, 1, 5, 0], [0, -5, 0, 1, -3, -2, -4, -1, 0, 5], [-5, -5, -4, -2, -5, -3, -4, 0, 5, 5]] == d_train.T)
-    assert np.all([[2, 5, 5], [-5, 1, 0], [-3, 6, 5]] == d_test.T)
 
 def test_get_polynomial_features():
     """
