@@ -12,6 +12,7 @@
 
 import os
 import sys
+import glob
 
 # -- Add current project where running from
 sys.path.append(os.path.abspath("../.."))
@@ -20,13 +21,16 @@ sys.path.append(os.path.abspath("../.."))
 
 project = 'Mini-Project'
 copyright = '2022, CA, MC'
-author = 'CA, MC'
+author = 'Chassignet Adrien, Mariéthoz Cédric'
 
 # The full version, including alpha/beta/rc tags
 release = '2021-02-22'
 
 
 # -- General configuration ---------------------------------------------------
+
+# If your documentation needs a minimal Sphinx version, state it here.
+needs_sphinx = "1.3"
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -57,9 +61,7 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-# If your documentation needs a minimal Sphinx version, state it here.
-needs_sphinx = "1.3"
-
+# Be picky about warnings
 nitpicky = False
 
 # Ignores stuff we can't easily resolve on other project's sphinx manuals
@@ -101,8 +103,19 @@ source_suffix = ".rst"
 # The master toctree document.
 master_doc = "index"
 
+# The version info for the project you're documenting, acts as replacement for
+# |version| and |release|, also used in various other places throughout the
+# built documents.
+#
+# The short X.Y version.
+version = "0.1.0"
+
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
+
+# Some variables which are useful for generated material
+project_variable = project.replace(".", "_")
+short_description = u"Mini-Project for the Maaster in Artificiel-Inteligence"
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -114,11 +127,26 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
-# Output file base name for HTML help builder.
-htmlhelp_basename = "_doc"
+# The name of an image file (relative to this directory) to place at the top
+# of the sidebar.
+html_logo = "_templates/logo.png"
 
+# The name of an image file (within the static path) to use as favicon of the
+# docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
+# pixels large.
+html_favicon = "_templates/favicon.ico"
+
+# Output file base name for HTML help builder.
+htmlhelp_basename = project_variable + u"_doc"
 
 # -- Post configuration --------------------------------------------------------
+
+# Included after all input documents
+rst_epilog = """
+.. |version| replace:: %s
+""" % (
+    version,
+)
 
 # Default processing flags for sphinx
 autoclass_content = "class"
