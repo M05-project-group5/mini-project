@@ -45,7 +45,8 @@ def download_url(url, directory):
 
     The file is named after its name contained at the end of the url.
 
-    Parameters:
+    Parameters
+    ----------
     url : string
         Url to download the data.
     directory : string

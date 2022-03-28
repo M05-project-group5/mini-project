@@ -6,12 +6,14 @@ def min_max_scaling(df_test, df_train):
     """
     Give a scaler between 0 and 1 depending on the colum
     
-    Parameters:
+    Parameters
+    ----------
     df_test : pandas.DataFrame
         Data test frame we will processing
     df_train : pandas.DataFrame
         Data tain frame we will processing
-    Return:
+    Returns
+    -------
     df_test : pandas.DataFrame
         Data test processing
     df_train : pandas.DataFrame
@@ -26,12 +28,14 @@ def z_normalisation(df_test, df_train):
     """
     Give the z-normalisation depending on the colum
     
-    Parameters:
+    Parameters
+    ----------
     df_test : pandas.DataFrame
         Data test frame we will processing
     df_train : pandas.DataFrame
         Data tain frame we will processing
-    Return:
+    Returns
+    -------
     df_test : pandas.DataFrame
         Data test processing
     df_train : pandas.DataFrame
@@ -46,14 +50,16 @@ def get_polynomial_features(df, degree=2, test=False):
     """
     Give the polynomial features depending on the colum
     
-    Parameters:
+    Parameters
+    ----------
     df : pandas.DataFrame
         Data we will processing
     degree : int
         Degree of polynome we will
     test : bool
         If the data who is give have result in the last column
-    Return:
+    Returns
+    -------
     df : pandas.DataFrame
         Data processing
     """

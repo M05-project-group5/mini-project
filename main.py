@@ -34,7 +34,8 @@ def get_cl_args(args=sys.argv[1:]):
     """
     Parse the command line (sys.argv) to select elements of the pipeline.
 
-    Return:
+    Returns
+    -------
     args : class 'argparse.Namespace'
         The populated Namespace of the arguments. Each string argument is an 
         attribute of the namespace.
