@@ -9,6 +9,11 @@
 Welcome to Mini-Project's documentation!
 ========================================
 
+.. include:: ../../README.rst
+
+Welcome to Mini-Project's documentation!
+========================================
+
 .. toctree::
 
    installation
