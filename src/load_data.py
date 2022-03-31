@@ -1,11 +1,5 @@
 import pandas as pd
 
-VERBOSE = True
-
-redwine_file = "downloads/winequality-red.csv"
-whitewine_file = "downloads/winequality-white.csv"
-houses_file = "downloads/housing.data"
-
 def read_data(func, *args, **kwargs):
     """
     Read data file with given parsing function and arguments.
@@ -21,7 +15,8 @@ def read_data(func, *args, **kwargs):
     """
     return func(*args, **kwargs)
 
-def load_wine_dataset(whitewine_file=whitewine_file, redwine_file=redwine_file):
+def load_wine_dataset(whitewine_file="downloads/winequality-white.csv",
+                     redwine_file="downloads/winequality-red.csv"):
     """
     Load the wine quality dataset from given files. Both dataset are merged.
 
@@ -51,7 +46,7 @@ def load_wine_dataset(whitewine_file=whitewine_file, redwine_file=redwine_file):
 
     return wine_df
 
-def load_houses_dataset(houses_file=houses_file):
+def load_houses_dataset(houses_file="downloads/housing.data"):
     """
     Load the Boston house prices dataset from the given file.
     

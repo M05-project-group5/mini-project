@@ -12,7 +12,7 @@ def test_get_cl_args_default():
     assert args.dataset, "Dataset not set."
     assert args.seed == None, "Seed should be None by default."
     assert args.scaling, "Scaling preprocessing not set."
-    assert args.polynomial == False, "Polynomes should not be used by default."
+    assert args.polynomial == None, "Polynomes should not be used by default."
     assert args.model, "Model not set."
     assert args.metrics, "Metric not set."
 
