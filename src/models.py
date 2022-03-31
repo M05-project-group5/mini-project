@@ -25,4 +25,5 @@ class ModifiedDecisionTreeRegressor(DecisionTreeRegressor):
         while using only expected parameters.
         """
         rs = args['random_state']
-        super().__init__(random_state=rs)
+        max_d = args['max_depth']
+        super().__init__(random_state=rs, max_depth=max_d)

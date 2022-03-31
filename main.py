@@ -60,6 +60,9 @@ def get_cl_args(args=sys.argv[1:]):
     parser.add_argument('-m', '--model', action='store', choices=MODELS.keys(),
                         help='Select the ML model that will be used to analyze '
                         'the data.', default=list(MODELS)[0])
+    parser.add_argument('--depth', action='store', type=int, default=None,
+                        help='Maximum depth of the tree when using regression '
+                        'trees.')
     parser.add_argument('--metrics', action='store', choices=METRICS.keys(),
                         help='Choose the metrics used as a measure of success '
                         'of the chosen model.', default=list(METRICS)[0])
@@ -100,7 +103,7 @@ def main(args):
     # Train model
     x_train, y_train = split_x_y(data_train)
     try:
-        model = MODELS[args.model](random_state=args.seed)
+        model = MODELS[args.model](random_state=args.seed, max_depth=args.depth)
         model.fit(x_train, y_train)
     except KeyError:
         raise RuntimeError(f"{args.model} is invalid for --model. Choose "
