@@ -28,7 +28,7 @@ PREPROCESSING = {'min-max': min_max_scaling, 'z-normalisation': z_normalisation}
 MODELS =   {'linear-regression': ModifiedLinearReggression,
             'regression-trees': ModifiedDecisionTreeRegressor}
 METRICS = {'mae': mean_absolute_error}
-""" Documentation of global variables"""
+#""" Documentation of global variables"""
 
 def get_cl_args(args=sys.argv[1:]):
     """
@@ -53,9 +53,10 @@ def get_cl_args(args=sys.argv[1:]):
     parser.add_argument('--scaling', action='store', choices=PREPROCESSING.keys(),
                         help='Select the scaling pre-processing technique to '
                         'apply to the features.', default=list(PREPROCESSING)[0])
-    parser.add_argument('--polynomial', action='store_true', 
-                        help='Use polynomial features instead of orginial ones '
-                        'for pre-processing')
+    parser.add_argument('--polynomial', action='store', type=int, nargs='?',
+                        help='Use polynomial features with given degree instead'
+                        ' of orginial ones for pre-processing', const=2,
+                        default=None)
     parser.add_argument('-m', '--model', action='store', choices=MODELS.keys(),
                         help='Select the ML model that will be used to analyze '
                         'the data.', default=list(MODELS)[0])
@@ -87,8 +88,8 @@ def main(args):
 
     # Pre-processing
     if args.polynomial:
-        data_train = get_polynomial_features(data_train)
-        data_test = get_polynomial_features(data_test)
+        data_train = get_polynomial_features(data_train, degree=args.polynomial)
+        data_test = get_polynomial_features(data_test, degree=args.polynomial)
 
     try:
         data_test, data_train = PREPROCESSING[args.scaling](data_test, data_train)
