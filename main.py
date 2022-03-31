@@ -19,11 +19,7 @@ from src.preprocessing_data import (get_polynomial_features,
 from src.models import ModifiedLinearReggression, ModifiedDecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
 
-redwine_file = "downloads/winequality-red.csv"
-whitewine_file = "downloads/winequality-white.csv"
-houses_file = "downloads/housing.data"
-
-DATASETS = {'wine': 'wine', 'houses': 'houses'}
+DATASETS = {'wine': download_wine, 'houses': download_houses}
 PREPROCESSING = {'min-max': min_max_scaling, 'z-normalisation': z_normalisation}
 MODELS =   {'linear-regression': ModifiedLinearReggression,
             'regression-trees': ModifiedDecisionTreeRegressor}
@@ -75,19 +71,13 @@ def main(args):
         print("{:11}->".format(arg), getattr(args, arg))
 
     # Load dataset (download it if not the already the case)
-    if args.dataset == 'wine':
-        if ((not os.path.isfile(redwine_file)) or
-                (not os.path.isfile(whitewine_file))):
-            download_wine()
-            print("Wine dataset downloaded.")
-    elif args.dataset == 'houses':
-        if not os.path.isfile(houses_file):
-            download_houses()
-            print("Boston house prices dataset downloaded.")
-    else:
-        raise Exception("Unknown dataset for this pipeline.")
+    try:
+        DATASETS[args.dataset]()
+    except KeyError:
+        raise RuntimeError(f"{args.dataset} is invalid for --dataset. Choose "
+                            f"between ({', '.join(DATASETS.keys())})")
     
-    data = load_dataset(name=DATASETS[args.dataset])
+    data = load_dataset(name=args.dataset)
     data_train, data_test = split_data(data, rs=args.seed)
 
     # Pre-processing
@@ -117,6 +107,7 @@ def main(args):
     y_test_predict = model.predict(x_test)
     #Evaluation
     try:
+        print('===============================')
         train_figure_of_merit = METRICS[args.metrics](y_train, y_train_predict)
         print(f"On the train set: \n{args.metrics} = {train_figure_of_merit}")
         test_figure_of_merit = METRICS[args.metrics](y_test, y_test_predict)
@@ -126,7 +117,7 @@ def main(args):
                             f"between ({', '.join(METRICS.keys())})")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     # Parse command line arguments
     args = get_cl_args()
     main(args)
