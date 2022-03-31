@@ -2,11 +2,12 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 def split_data(df, test_size=0.5, rs=None):
-    """
-    Split in two a data frame
-    The random_state is used for change the shuffling before the split
+    """Split in two a data frame.
     
-    Parameters:
+    The random_state is used for change the shuffling before the split.
+    
+    Parameters
+    ----------
     df : pandas.DataFrame
         Data we will splitting
     testSize : float or int
@@ -15,7 +16,8 @@ def split_data(df, test_size=0.5, rs=None):
         Indication for the pseudo-random split
         If it's None the function is random
     
-    Return:
+    Returns
+    -------
     train : pandas.DataFrame
         Train split data
     test : pandas.DataFrame
@@ -25,14 +27,15 @@ def split_data(df, test_size=0.5, rs=None):
     return train, test
 
 def split_x_y(data):
-    """
-    Split the data between x, the parameters, and y, the result.
+    """Split the data between x, the parameters, and y, the result.
 
-    Parameters:
+    Parameters
+    ----------
     data : pandas.DataFrame
         Data to be separated between x parameters columns and y result column
     
-    Return:
+    Returns
+    -------
     x : pandas.DataFrame
         The parameters column of the DataFrame data (all but the last column)
     y : pandas.DataFrame

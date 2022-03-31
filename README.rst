@@ -1,42 +1,57 @@
-[![Coverage Status](https://coveralls.io/repos/github/M05-project-group5/mini-project/badge.svg?branch=main)](https://coveralls.io/github/M05-project-group5/mini-project?branch=main)
+.. image:: https://github.com/M05-project-group5/mini-project/actions/workflows/ci-testing.yml/badge.svg?branch=main
+   :target: https://github.com/M05-project-group5/mini-project/actions/workflows/ci-testing.yml
+.. image:: https://coveralls.io/repos/github/M05-project-group5/mini-project/badge.svg?branch=main
+   :target: https://coveralls.io/github/M05-project-group5/mini-project?branch=main
+.. image:: https://img.shields.io/badge/docs-latest-orange.svg
+   :target: https://M05-project-group5.github.io/mini-project/index.html
 
-## Mini-project
+============
+Mini-project
+============
+
 This is an extensible and fully reproducible system to analyze multiple datasets, with various Machine Learning techniques.
 
-## Description
+Description
+===========
+
 More information on the project.
 
-## Getting Started
+Getting Started
+===============
 
-### Installation
+Installation
+------------
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/M05-project-group5/mini-project.git
-   ```
-2. Install dependencies in a conda env
-   ```sh
-   conda env create -f environment.yml -n mini-project
-   ```
-### Usage
+1. Clone the repo ::
 
-1. Activate the environment
-   ```sh
-   conda activate mini-project
-   ```
-2. Run the pipeline with default arguments
-   ```sh
-   cd mini-project
-   python main.py
-   ```
-### Download 'manually' the datasets
-   ```sh
-   python download_datasets.py
-   ```
+    git clone https://github.com/M05-project-group5/mini-project.git
+
+2. Install dependencies in a conda env::
    
-## Choose blocks of the pipeline
+    conda env create -f environment.yml -n mini-project
+   
+Usage
+-----
+
+1. Activate the environment::
+
+    conda activate mini-project
+
+2. Run the pipeline with default arguments::
+
+    cd mini-project
+    python main.py
+
+Download 'manually' the datasets
+--------------------------------
+
+   python download_datasets.py
+   
+Choose blocks of the pipeline
+=============================
+
 Run the main script with command-line arguments to select and change different elements of the pipeline.
-Below is the help informations provided for the main script:
+Below is the help informations provided for the main script::
 
       usage: main.py [-h] [-d {wine,houses}] [--seed SEED] [--scaling {min-max,z-normalisation}] [--polynomial]
                     [-m {linear-regression,regression-trees}] [--metrics {mae}]
@@ -57,11 +72,11 @@ Below is the help informations provided for the main script:
        --metrics {mae}       Choose the metrics used as a measure of success of the chosen model.
 
   
-For example, to train a Regression trees model on the Wine quality dataset with a z-normalisation, run: \
-   ```sh
+For example, to train a Regression trees model on the Wine quality dataset with a z-normalisation, run::
+
    python main.py -d wine --scaling z-normalisation -m regression-trees
-   ```
  
- ## Authors
- Cédric Mariéthoz \
- Adrien Chassignet
+Authors
+=======
+Cédric Mariéthoz \
+Adrien Chassignet

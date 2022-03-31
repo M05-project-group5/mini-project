@@ -4,11 +4,13 @@ def read_data(func, *args, **kwargs):
     """
     Read data file with given parsing function and arguments.
     
-    Return:
+    Returns
+    -------
     df : pandas.DataFrame
         Loaded data from the given file in arguments.
 
-    Example:
+    Examples
+    --------
         df = read_data(pd.read_csv, filepath_or_buffer=filename.csv, sep=';')
     """
     return func(*args, **kwargs)
@@ -18,7 +20,8 @@ def load_wine_dataset(whitewine_file="downloads/winequality-white.csv",
     """
     Load the wine quality dataset from given files. Both dataset are merged.
 
-    Parameters:
+    Parameters
+    ----------
     whitewine_file : string
         Relative path to the file containing the white wine quality dataset.
         Default is "downloads/winequality-white.csv".
@@ -26,7 +29,8 @@ def load_wine_dataset(whitewine_file="downloads/winequality-white.csv",
         Relative path to the file containing the red wine quality dataset
         Default is "downloads/winequality-red.csv".
 
-    Return:
+    Returns
+    -------
     df : pandas.DataFrame
         Wine quality loaded data
     """
@@ -46,11 +50,13 @@ def load_houses_dataset(houses_file="downloads/housing.data"):
     """
     Load the Boston house prices dataset from the given file.
     
-    Parameters:
+    Parameters
+    ----------
     houses_file : string
         Relative path to the file containing the Boston house prices dataset.
         Default is "downloads/housing.data".
-    Return:
+    Returns
+    -------
     df : pandas.DataFrame
         Boston house prices loaded data
     """
@@ -65,7 +71,8 @@ def load_dataset(name='wine'):
     """
     Load the dataset given by its name 'wine' or 'houses'.
 
-    Return:
+    Returns
+    -------
     df : pandas.DataFrame
         Loaded dataset.
     """
@@ -80,7 +87,8 @@ def quality_check(data):
     """
     Perform quality checks on the given pd.DataFrame.
 
-    Parameters:
+    Parameters
+    ----------
     data: pd.DataFrame
         Dataset in pandas format to check.
     """

@@ -5,6 +5,7 @@ This file contains the Machine Learning models to be tested in the pipeline.
 @Date:      Mar 22 2022 
 @Version:   1.0
 """
+
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 
