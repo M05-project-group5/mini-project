@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false  # avoids cancelled builds if the other fails
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.8", "3.9"]
 
     # Here we define the steps to be undertaken for every test
     # -- Each step does one action.  Code for the action sits in
@@ -56,6 +56,24 @@ jobs:
         run: |
           conda info -a
           coveralls --service=github
+
+      # Build documentation for the GitHub pages
+      - name: Build documentation
+        if: ${{ matrix.python-version == '3.9'}} # && startsWith(github.ref, 'refs/tags')}}  #builds only one variant
+        shell: bash -l {0}
+        run: |
+          sphinx-build doc/source doc/build/html  #generates html version of docs
+          touch doc/build/html/.nojekyll  #pages to be deployed are NOT a Jekyll site
+      
+      - name: Deploy documentation to GitHub Pages
+        if: ${{ matrix.python-version == '3.9'}} # && startsWith(github.ref, 'refs/tags')}}
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: doc/build/html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   coveralls:
     name: Indicate completion to coveralls.io
     needs: test
