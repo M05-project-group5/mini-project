@@ -24,6 +24,12 @@ class ModifiedDecisionTreeRegressor(DecisionTreeRegressor):
         """ Inherit all the methods and properties from the parent class 
         while using only expected parameters.
         """
-        rs = args['random_state']
-        max_d = args['max_depth']
+        try:
+            rs = args['random_state']
+        except KeyError:
+            rs = None
+        try:
+            max_d = args['max_depth']
+        except KeyError:
+            max_d = None
         super().__init__(random_state=rs, max_depth=max_d)
