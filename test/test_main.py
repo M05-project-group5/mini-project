@@ -14,6 +14,7 @@ def test_get_cl_args_default():
     assert args.scaling, "Scaling preprocessing not set."
     assert args.polynomial == None, "Polynomes should not be used by default."
     assert args.model, "Model not set."
+    assert args.depth == None, "No max_depth should be set by default."
     assert args.metrics, "Metric not set."
 
 def test_get_cl_args_wrong_dataset():
