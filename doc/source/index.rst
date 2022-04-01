@@ -11,8 +11,9 @@ Welcome to Mini-Project's documentation!
 
 .. include:: ../../README.rst
 
-Welcome to Mini-Project's documentation!
-========================================
+
+Documentation
+=============
 
 .. toctree::
 
@@ -28,5 +29,7 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+Our work is based on the example of André Anjos `anjos`_.
 
 .. include:: links.rst

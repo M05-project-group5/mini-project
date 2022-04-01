@@ -1,5 +1,6 @@
-..vim: set fileencoding=utf-8
-.._doc_guide:
+.. vim: set fileencoding=utf-8
+
+.. _doc_guide:
 
 ==========
 User Guide
@@ -7,7 +8,7 @@ User Guide
 
 Short explain how our code can be use and many examples
 
-..code-block:: sh
+.. code-block:: sh
     $ doc-paper
    
 Something
@@ -21,3 +22,5 @@ Example 2
 ---------
 
 Explain about one example ...
+
+.. include:: links.rst
