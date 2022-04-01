@@ -59,20 +59,34 @@ jobs:
 
       # Build documentation for the GitHub pages
       - name: Build documentation
-        if: ${{ matrix.python-version == '3.9'}} # && startsWith(github.ref, 'refs/tags')}}  #builds only one variant
+        if: ${{ matrix.python-version == '3.9' && startsWith(github.ref, 'refs/tags')}}  #builds only one variant
         shell: bash -l {0}
         run: |
           sphinx-build doc/source doc/build/html  #generates html version of docs
           touch doc/build/html/.nojekyll  #pages to be deployed are NOT a Jekyll site
       
       - name: Deploy documentation to GitHub Pages
-        if: ${{ matrix.python-version == '3.9'}} # && startsWith(github.ref, 'refs/tags')}}
+        if: ${{ matrix.python-version == '3.9' && startsWith(github.ref, 'refs/tags')}}
         uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh-pages
           build_dir: doc/build/html
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build packing for PyPI
+      - name: Build PyPI
+        if: ${{ matrix.python-version == '3.9' && startsWith(github.ref, 'refs/tags')}}  #builds only one variant
+        shell: bash -l {0}
+        run: |
+          python3 -m pip install --upgrade build
+          python3 -m build 
+      - name: Deploy packing for TestPyPI
+        if: ${{ matrix.python-version == '3.9' && startsWith(github.ref, 'refs/tags')}}
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+           repository_url: https://test.pypi.org/legacy/
 
   coveralls:
     name: Indicate completion to coveralls.io

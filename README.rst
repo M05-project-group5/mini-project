@@ -4,6 +4,8 @@
    :target: https://coveralls.io/github/M05-project-group5/mini-project?branch=main
 .. image:: https://img.shields.io/badge/docs-latest-orange.svg
    :target: https://M05-project-group5.github.io/mini-project/index.html
+.. image:: https://img.shields.io/badge/pypi-project-blueviolet.svg
+   :target: https://test.pypi.org/project/Mini-Project/
 
 ============
 Mini-project
