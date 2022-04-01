@@ -28,16 +28,23 @@ urls = [url_red_wine, url_white_wine, url_house_prices]
 
 def download_wine():
     """
-    Download the 2 wine quality datasets in the downloads/ folder.
+    Download the 2 wine quality datasets in the downloads/ folder if the files
+    do not exist.
     """
-    download_url(url_red_wine, download_dir)
-    download_url(url_white_wine, download_dir)
+    if ((not os.path.isfile(download_dir + '/' + url_red_wine.split("/")[-1])) or
+            (not os.path.isfile(download_dir + '/' + url_white_wine.split("/")[-1]))):
+        download_url(url_red_wine, download_dir)
+        download_url(url_white_wine, download_dir)
+        print("Wine datasets downloaded.")
 
 def download_houses():
     """
-    Download the Boston house prices dataset in the downloads/ folder.
+    Download the Boston house prices dataset in the downloads/ folder if the
+    file does not exists.
     """
-    download_url(url_house_prices, download_dir)
+    if not os.path.isfile(download_dir + '/' + url_house_prices.split("/")[-1]):
+        download_url(url_house_prices, download_dir)
+        print("Boston house prices dataset downloaded.")
 
 def download_url(url, directory):
     """

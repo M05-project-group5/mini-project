@@ -19,16 +19,12 @@ from src.preprocessing_data import (get_polynomial_features,
 from src.models import ModifiedLinearReggression, ModifiedDecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
 
-redwine_file = "downloads/winequality-red.csv"
-whitewine_file = "downloads/winequality-white.csv"
-houses_file = "downloads/housing.data"
-
-DATASETS = {'wine': 'wine', 'houses': 'houses'}
+DATASETS = {'wine': download_wine, 'houses': download_houses}
 PREPROCESSING = {'min-max': min_max_scaling, 'z-normalisation': z_normalisation}
 MODELS =   {'linear-regression': ModifiedLinearReggression,
             'regression-trees': ModifiedDecisionTreeRegressor}
 METRICS = {'mae': mean_absolute_error}
-""" Documentation of global variables"""
+#""" Documentation of global variables"""
 
 def get_cl_args(args=sys.argv[1:]):
     """
@@ -54,12 +50,16 @@ def get_cl_args(args=sys.argv[1:]):
     parser.add_argument('--scaling', action='store', choices=PREPROCESSING.keys(),
                         help='Select the scaling pre-processing technique to '
                         'apply to the features.', default=list(PREPROCESSING)[0])
-    parser.add_argument('--polynomial', action='store_true', 
-                        help='Use polynomial features instead of orginial ones '
-                        'for pre-processing')
+    parser.add_argument('--polynomial', action='store', type=int, nargs='?',
+                        help='Use polynomial features with given degree instead'
+                        ' of orginial ones for pre-processing', const=2,
+                        default=None)
     parser.add_argument('-m', '--model', action='store', choices=MODELS.keys(),
                         help='Select the ML model that will be used to analyze '
                         'the data.', default=list(MODELS)[0])
+    parser.add_argument('--depth', action='store', type=int, default=None,
+                        help='Maximum depth of the tree when using regression '
+                        'trees.')
     parser.add_argument('--metrics', action='store', choices=METRICS.keys(),
                         help='Choose the metrics used as a measure of success '
                         'of the chosen model.', default=list(METRICS)[0])
@@ -71,25 +71,19 @@ def main(args):
         print("{:11}->".format(arg), getattr(args, arg))
 
     # Load dataset (download it if not the already the case)
-    if args.dataset == 'wine':
-        if ((not os.path.isfile(redwine_file)) or
-                (not os.path.isfile(whitewine_file))):
-            download_wine()
-            print("Wine dataset downloaded.")
-    elif args.dataset == 'houses':
-        if not os.path.isfile(houses_file):
-            download_houses()
-            print("Boston house prices dataset downloaded.")
-    else:
-        raise Exception("Unknown dataset for this pipeline.")
+    try:
+        DATASETS[args.dataset]()
+    except KeyError:
+        raise RuntimeError(f"{args.dataset} is invalid for --dataset. Choose "
+                            f"between ({', '.join(DATASETS.keys())})")
     
-    data = load_dataset(name=DATASETS[args.dataset])
+    data = load_dataset(name=args.dataset)
     data_train, data_test = split_data(data, rs=args.seed)
 
     # Pre-processing
     if args.polynomial:
-        data_train = get_polynomial_features(data_train)
-        data_test = get_polynomial_features(data_test)
+        data_train = get_polynomial_features(data_train, degree=args.polynomial)
+        data_test = get_polynomial_features(data_test, degree=args.polynomial)
 
     try:
         data_test, data_train = PREPROCESSING[args.scaling](data_test, data_train)
@@ -100,7 +94,7 @@ def main(args):
     # Train model
     x_train, y_train = split_x_y(data_train)
     try:
-        model = MODELS[args.model](random_state=args.seed)
+        model = MODELS[args.model](random_state=args.seed, max_depth=args.depth)
         model.fit(x_train, y_train)
     except KeyError:
         raise RuntimeError(f"{args.model} is invalid for --model. Choose "
@@ -113,6 +107,7 @@ def main(args):
     y_test_predict = model.predict(x_test)
     #Evaluation
     try:
+        print('===============================')
         train_figure_of_merit = METRICS[args.metrics](y_train, y_train_predict)
         print(f"On the train set: \n{args.metrics} = {train_figure_of_merit}")
         test_figure_of_merit = METRICS[args.metrics](y_test, y_test_predict)
@@ -122,7 +117,7 @@ def main(args):
                             f"between ({', '.join(METRICS.keys())})")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     # Parse command line arguments
     args = get_cl_args()
     main(args)

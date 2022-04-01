@@ -29,4 +29,8 @@ class ModifiedDecisionTreeRegressor(DecisionTreeRegressor):
             rs = args['random_state']
         except KeyError:
             rs = None
-        super().__init__(random_state=rs)
+        try:
+            max_d = args['max_depth']
+        except KeyError:
+            max_d = None
+        super().__init__(random_state=rs, max_depth=max_d)

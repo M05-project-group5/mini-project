@@ -17,12 +17,26 @@ def test_init_mod_regression_trees_missing_random_state():
     model = ModifiedDecisionTreeRegressor()
     assert model.random_state == None
 
-def test_init_mod_regression_trees_given_random_state():
+def test_init_mod_regression_trees_missing_max_depth():
     """ Test if DecisionTreeRegressor is correctly initiated even with missing 
+    max_depth parameter.
+    """
+    model = ModifiedDecisionTreeRegressor()
+    assert model.max_depth == None
+
+def test_init_mod_regression_trees_given_random_state():
+    """ Test if DecisionTreeRegressor is correctly initiated with given 
     random_state parameter.
     """
     model = ModifiedDecisionTreeRegressor(random_state=0)
     assert model.random_state == 0
+
+def test_init_mod_regression_trees_given_max_depth():
+    """ Test if DecisionTreeRegressor is correctly initiated with given 
+    max_depth parameter.
+    """
+    model = ModifiedDecisionTreeRegressor(max_depth=10)
+    assert model.max_depth == 10
 
 def test_init_mod_regression_trees_unwanted_params():
     """ Test if DecisionTreeRegressor is correctly initiated even with unwanted 
