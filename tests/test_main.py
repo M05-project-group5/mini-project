@@ -1,6 +1,6 @@
 import pytest
 import sys
-sys.path.insert(1, '.')
+sys.path.insert(1, './src')
 
 import os
 import main
@@ -51,8 +51,8 @@ def test_get_cl_args_wrong_argument():
 @pytest.mark.slow
 def test_main_wine_dataset_not_found():
     """ Test that the pipeline download the wine datasets if unavailable. """
-    path_redwine = "downloads/winequality-red.csv"
-    path_whitewine = "downloads/winequality-white.csv"
+    path_redwine = "../downloads/winequality-red.csv"
+    path_whitewine = "../downloads/winequality-white.csv"
     try:
         os.remove(path_redwine)
     except OSError:
@@ -72,7 +72,7 @@ def test_main_wine_dataset_not_found():
 @pytest.mark.slow
 def test_main_houses_dataset_not_found():
     """ Test that the pipeline download the houses dataset if unavailable. """
-    path_houses = "downloads/housing.data"
+    path_houses = "../downloads/housing.data"
     try:
         os.remove(path_houses)
     except OSError:
