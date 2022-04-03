@@ -2,21 +2,19 @@
 # coding=utf-8
 
 from setuptools import setup, find_packages
-
+import subprocess
 
 def load_requirements(f):
     retval = [str(k.strip()) for k in open(f, "rt")]
     return [k for k in retval if k and k[0] not in ("#", "-")]
 
 def get_git_tag():
-    try:
-        git_tag = str(
-            subprocess.check_output(
-                ['git', 'describe', '--exact-match', '--abbrev=0'], stderr=subprocess.STDOUT
-            )
-        ).strip('\'b\\n')
-    except subprocess.CalledProcessError as exc_info:
-        git_tag = None
+    git_tag = str(
+                check_output(
+                    ['git', 'describe', '--exact-match', '--abbrev=0'], stderr=subprocess.STDOUT
+                )
+               ).strip('\'b\\n')
+  
 
     return git_tag 
 
