@@ -2,11 +2,13 @@
 """
 This script parse the command-line arguments to select block components of the 
 model fitting pipeline.
-
-@Author:    Adrien Chassignet, Cédric Mariéthoz
-@Date:      Feb 28 2022 
-@Version:   1.0
 """
+#Author:      Adrien Chassignet
+#Co-authir:   Cédric Mariéthoz
+#Date:        Feb 28 2022
+#Change date: Mar 3 2022 
+#Version:     1.1
+
 import sys
 import os
 import argparse

@@ -1,3 +1,16 @@
+#!/usr/bin/env python3
+"""
+This script has the function of splitting the data into the test and training stack.
+
+We have a function to split the data into two sets.
+The second divides the data between the parameters and the result.
+"""
+#Author:      Cédric Mariéthoz
+#Co-authir:   Adrien Chassignet
+#Date:        Feb 28 2022
+#Change date: Mar 3 2022 
+#Version:     1.1
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 

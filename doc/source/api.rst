@@ -9,13 +9,13 @@ Code documentation
 main
 ----
 
-.. automodule:: main
+.. automodule:: src.main
     :members:
 
 download_datasets
 -----------------
 
-.. automodule:: download_datasets
+.. automodule:: src.download_datasets
     :members:
 
 split_data

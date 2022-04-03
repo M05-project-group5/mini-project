@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
 """
 This file contains the Machine Learning models to be tested in the pipeline.
-
-@Author:    Adrien Chassignet
-@Date:      Mar 22 2022 
-@Version:   1.0
 """
+#Author:      Adrien Chassignet
+#Co-authir:   Cédric Mariéthoz
+#Date:        Mar 22 2022 
+#Change date: Mars 3 2022 
+#Version:     1.1
 
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor

@@ -1,8 +1,20 @@
+#!/usr/bin/env python3
+"""
+This script reads datas from the Wine quality and Boston's house prices datasets.
+
+Before download_datasets was run successfully at least once.
+Because the datasets are under the download folder.
+"""
+#Author:      Adrien Chassignet
+#Co-authir:   Cédric Mariéthoz
+#Date:        Feb 28 2022
+#Change date: Mar 3 2022 
+#Version:     1.1
+
 import pandas as pd
 
 def read_data(func, *args, **kwargs):
-    """
-    Read data file with given parsing function and arguments.
+    """Read data file with given parsing function and arguments.
     
     Returns
     -------
@@ -17,8 +29,7 @@ def read_data(func, *args, **kwargs):
 
 def load_wine_dataset(whitewine_file="../downloads/winequality-white.csv",
                      redwine_file="../downloads/winequality-red.csv"):
-    """
-    Load the wine quality dataset from given files. Both dataset are merged.
+    """Load the wine quality dataset from given files. Both dataset are merged.
 
     Parameters
     ----------
@@ -47,8 +58,7 @@ def load_wine_dataset(whitewine_file="../downloads/winequality-white.csv",
     return wine_df
 
 def load_houses_dataset(houses_file="../downloads/housing.data"):
-    """
-    Load the Boston house prices dataset from the given file.
+    """Load the Boston house prices dataset from the given file.
     
     Parameters
     ----------
@@ -68,8 +78,7 @@ def load_houses_dataset(houses_file="../downloads/housing.data"):
     return houses_df
 
 def load_dataset(name='wine'):
-    """
-    Load the dataset given by its name 'wine' or 'houses'.
+    """Load the dataset given by its name 'wine' or 'houses'.
 
     Returns
     -------
@@ -84,8 +93,7 @@ def load_dataset(name='wine'):
         raise SystemExit("Dataset name unknown.")
 
 def quality_check(data):
-    """
-    Perform quality checks on the given pd.DataFrame.
+    """Perform quality checks on the given pd.DataFrame.
 
     Parameters
     ----------

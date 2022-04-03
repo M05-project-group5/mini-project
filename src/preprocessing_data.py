@@ -1,10 +1,21 @@
+#!/usr/bin/env python3
+"""
+This script contains functions to preprocess data with different methods.
+
+We have 2 methods (min-max scaling and z normalisation) and the polynomial feature.
+"""
+#Author:      Cédric Mariéthoz
+#Co-authir:   Adrien Chassignet
+#Date:        Feb 28 2022
+#Change date: Mar 3 2022 
+#Version:     1.1
+
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing
 
 def min_max_scaling(df_test, df_train):
-    """
-    Give a scaler between 0 and 1 depending on the colum
+    """Give a scaler between 0 and 1 depending on the colum
     
     Parameters
     ----------
@@ -25,8 +36,7 @@ def min_max_scaling(df_test, df_train):
     return df_test, df_train
 
 def z_normalisation(df_test, df_train):
-    """
-    Give the z-normalisation depending on the colum
+    """Give the z-normalisation depending on the colum
     
     Parameters
     ----------
@@ -47,8 +57,7 @@ def z_normalisation(df_test, df_train):
     return df_test, df_train
 
 def get_polynomial_features(df, degree=2, test=False):
-    """
-    Give the polynomial features depending on the colum
+    """Give the polynomial features depending on the colum
     
     Parameters
     ----------
