@@ -1,7 +1,12 @@
 name: Continuous Integration
 
 on:  # Define here when your project will be tested
-  push:               # all branches are tested on pushes to the repo
+  push:               # only those branchs with those tags are tested
+    tags:
+      - v*.*.*
+    branches:
+      - main
+      - dev_packing
   pull_request:       # all pull-requests will be tested
   workflow_dispatch:  # this allows you to "manually" launch the workflow
 
