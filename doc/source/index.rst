@@ -30,6 +30,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-Our work is based on the example of André Anjos `anjos`_.
-
 .. include:: links.rst
