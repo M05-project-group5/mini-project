@@ -35,23 +35,27 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
         
-      # Action provided by "conda-incubator" to setup conda env
-      - name: Setup miniconda
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          miniconda-version: "latest"
-          python-version: ${{ matrix.python-version }}
-          auto-update-conda: true
-          auto-activate-base: false
-          activate-environment: project
-          environment-file: environment.yml
-      
-      # Default action: run something
-      - name: Run tests
+      # Prepares the Python environment
+      - name: Prepare Python
         shell: bash -l {0}
         run: |
-          conda info -a
-          pytest -sv --cov=. 
+          python -m pip install --upgrade pip
+          pip install wheel
+
+      # Install build requirement lib
+      - name: Install Python lib
+        shell: bash -l {0}
+        run: |
+          pip install .
+          pip install -r build-requirements.txt  #only required for CI tests
+
+      # Run test
+      - name: Run test
+        shell: bash -l {0}
+        run: |
+          pytest -sv --cov=.
+
+      # Upload coverage
       - name: Upload coverage to coveralls.io
         shell: bash -l {0}
         env:
@@ -59,7 +63,6 @@ jobs:
           COVERALLS_FLAG_NAME: ${{ matrix.python-version }}
           COVERALLS_PARALLEL: true
         run: |
-          conda info -a
           coveralls --service=github
 
       # Build documentation for the GitHub pages

@@ -12,7 +12,7 @@ model fitting pipeline.
 import sys
 import os
 import argparse
-from download_datasets import download_wine, download_houses
+from src.download_datasets import download_wine, download_houses
 from src.load_data import load_dataset
 from src.split_data import split_data, split_x_y
 from src.preprocessing_data import (get_polynomial_features,

@@ -9,6 +9,7 @@ User Guide
 Short explain how our code can be use and many examples
 
 .. code-block:: sh
+
     $ doc-paper
    
 Something
