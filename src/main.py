@@ -68,7 +68,10 @@ def get_cl_args(args=sys.argv[1:]):
 
     return parser.parse_args(args)
     
-def main(args):
+def main(args=None):
+    if args == None:
+        args = get_cl_args()
+    
     for arg in vars(args):
         print("{:11}->".format(arg), getattr(args, arg))
 
