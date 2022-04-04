@@ -10,7 +10,7 @@ def load_requirements(f):
 
 def get_git_tag():
     git_tag = str(
-                check_output(
+                subprocess.check_output(
                     ['git', 'describe', '--exact-match', '--abbrev=0'], stderr=subprocess.STDOUT
                 )
                ).strip('\'b\\n')
