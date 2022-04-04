@@ -8,17 +8,10 @@ def load_requirements(f):
     retval = [str(k.strip()) for k in open(f, "rt")]
     return [k for k in retval if k and k[0] not in ("#", "-")]
 
-def get_git_tag():
-    git_tag = str(
-                subprocess.check_output(
-                    ['git', 'describe', '--tag'], stderr=subprocess.STDOUT
-                )
-               ).strip('\'b\\n')
-    return git_tag 
 
 setup(
     name="Mini-Project",
-    version=get_git_tag(),
+    version="1.0.0a",
     description="Basic example of a Reproducible Research Project in Python",
     url="https://github.com/M05-project-group5/mini-project",
     license="BSD",
