@@ -2,11 +2,11 @@ name: Continuous Integration
 
 on:  # Define here when your project will be tested
   push:               # only those branchs with those tags are tested
-    tags:
-      - v*.*.*
     branches:
       - main
       - dev_packing
+    tags:
+      - '*'
   pull_request:       # all pull-requests will be tested
   workflow_dispatch:  # this allows you to "manually" launch the workflow
 
@@ -93,6 +93,7 @@ jobs:
         if: ${{ matrix.python-version == '3.9' && startsWith(github.ref, 'refs/tags')}}
         uses: pypa/gh-action-pypi-publish@master
         with:
+           verbose: true
            password: ${{ secrets.TEST_PYPI_API_TOKEN }}
            repository_url: https://test.pypi.org/legacy/
 
