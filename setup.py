@@ -2,7 +2,6 @@
 # coding=utf-8
 
 from setuptools import setup, find_packages
-import subprocess
 
 def load_requirements(f):
     retval = [str(k.strip()) for k in open(f, "rt")]
@@ -11,7 +10,7 @@ def load_requirements(f):
 
 setup(
     name="Mini-Project",
-    version="1.0.0a",
+    version="1.0.0a1",
     description="Basic example of a Reproducible Research Project in Python",
     url="https://github.com/M05-project-group5/mini-project",
     license="BSD",
