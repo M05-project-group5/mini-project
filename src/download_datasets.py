@@ -18,7 +18,7 @@ import os
 import requests
 from requests.exceptions import RequestException
 
-download_dir = "../downloads"
+download_dir = "downloads"
 
 url_red_wine = ('https://archive.ics.uci.edu/ml/machine-learning-databases/'
                 'wine-quality/winequality-red.csv')

@@ -6,7 +6,9 @@
 User Guide
 ==========
 
-Short explain how our code can be use and many examples
+You can refer to this guide to know how to use this package.
+
+
 
 .. code-block:: sh
 

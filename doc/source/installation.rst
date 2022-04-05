@@ -6,11 +6,10 @@
 Installation
 ============
 
-Use next command line:
+Use pip:
 .. code-block:: sh
 
-    $ Our command line
+    $ pip install --extra-index-url https://test.pypi.org/project/Mini-Project/ Mini-Project
 
-For us ci look at our GitHub repository.
 
 .. include:: links.rst
