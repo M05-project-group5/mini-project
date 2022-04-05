@@ -5,7 +5,7 @@
 Troubleshooting
 ---------------
 
-For run the unit test we use pytest_:
+To run the unit test we use pytest_:
 
 
 .. code-block:: shell
@@ -20,7 +20,7 @@ For run the unit test we use pytest_:
   ...
   ============ 42 passed, 1 skipped, 13 warnings in 8.66s =============
 
-If you will know the coverage of test, you can use this command:
+If you want to know the coverage of test, you can use this command:
 
 .. code-block:: shell
 

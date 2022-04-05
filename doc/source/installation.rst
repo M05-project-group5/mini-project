@@ -7,6 +7,7 @@ Installation
 ============
 
 Use pip:
+
 .. code-block:: sh
 
     $ pip install --extra-index-url https://test.pypi.org/project/Mini-Project/ Mini-Project
