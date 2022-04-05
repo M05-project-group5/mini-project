@@ -16,8 +16,8 @@ def test_download_url_incorrect():
 @pytest.mark.slow
 def test_download_wine():
     """ Test if wine quality datasets are correctly downloaded. """
-    path_redwine = "../downloads/winequality-red.csv"
-    path_whitewine = "../downloads/winequality-white.csv"
+    path_redwine = "downloads/winequality-red.csv"
+    path_whitewine = "downloads/winequality-white.csv"
     try:
         os.remove(path_redwine)
     except OSError:
@@ -34,7 +34,7 @@ def test_download_wine():
 @pytest.mark.slow
 def test_download_houses():
     """ Test if Boston house prices dataset is correctly downloaded. """
-    path_houses = "../downloads/housing.data"
+    path_houses = "downloads/housing.data"
     try:
         os.remove(path_houses)
     except OSError:
