@@ -29,7 +29,7 @@ url_house_prices = ('https://archive.ics.uci.edu/ml/machine-learning-databases/'
 urls = [url_red_wine, url_white_wine, url_house_prices]
 
 def download_wine():
-    """Download the 2 wine quality datasets in the downloads/ folder if the files
+    """Download the 2 wine quality datasets in a data/ folder if the files
     do not exist.
     """
     if ((not os.path.isfile(download_dir + '/' + url_red_wine.split("/")[-1])) or
@@ -39,7 +39,7 @@ def download_wine():
         print("Wine datasets downloaded.")
 
 def download_houses():
-    """Download the Boston house prices dataset in the downloads/ folder if the
+    """Download the Boston house prices dataset in the data/ folder if the
     file does not exists.
     """
     if not os.path.isfile(download_dir + '/' + url_house_prices.split("/")[-1]):
@@ -71,7 +71,7 @@ def download_url(url, directory):
     except RequestException as e:
         raise SystemExit(e)
 
-if __name__ == '__main__':  # pragma: no cover
+def main():  # pragma: no cover
     print('Download script starting...')
 
     for url in urls:
