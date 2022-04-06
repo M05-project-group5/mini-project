@@ -19,6 +19,13 @@ sys.path.append(os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 
+# The version info for the project you're documenting, acts as replacement for
+# |version| and |release|, also used in various other places throughout the
+# built documents.
+#
+# The short X.Y version.
+version = "2.0.0a0"
+
 project = 'Mini-Project'
 copyright = '2022, CA, MC'
 author = 'Chassignet Adrien, Mariéthoz Cédric'
@@ -103,12 +110,6 @@ source_suffix = [".rst", ".md"]
 # The master toctree document.
 master_doc = "index"
 
-# The version info for the project you're documenting, acts as replacement for
-# |version| and |release|, also used in various other places throughout the
-# built documents.
-#
-# The short X.Y version.
-version = "0.1.0"
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"

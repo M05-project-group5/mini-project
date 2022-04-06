@@ -10,7 +10,7 @@ def load_requirements(f):
 
 setup(
     name="Mini-Project",
-    version="1.0.1",
+    version="2.0.0a0",
     description="Basic example of a Reproducible Research Project in Python",
     url="https://github.com/M05-project-group5/mini-project",
     license="BSD",
