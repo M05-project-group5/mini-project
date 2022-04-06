@@ -46,33 +46,13 @@ def test_get_cl_args_wrong_argument():
     with pytest.raises(SystemExit) as err:
         main.get_cl_args(["--dummy"])
     assert err.value.code == 2, "Program should exit with a code 2 error."
-
-@pytest.mark.dependency(depends=["default"])
-@pytest.mark.slow
-def test_main_wine_dataset_not_found():
-    """ Test that the pipeline download the wine datasets if unavailable. """
-    path_redwine = "../downloads/winequality-red.csv"
-    path_whitewine = "../downloads/winequality-white.csv"
-    try:
-        os.remove(path_redwine)
-    except OSError:
-        pass
-    try:
-        os.remove(path_whitewine)
-    except OSError:
-        pass
-
-    args = main.get_cl_args(args=[])
-    args.dataset = 'wine'
-    main.main(args)
-    assert os.path.exists(path_redwine), "Red Wine Quality dataset not downloaded."
-    assert os.path.exists(path_whitewine), "White Wine Quality dataset not downloaded."
-
+    
+@pytest.mark.skip(reason="Datasets is in the packaging also we cann't not found")
 @pytest.mark.dependency(depends=["default"])
 @pytest.mark.slow
 def test_main_houses_dataset_not_found():
     """ Test that the pipeline download the houses dataset if unavailable. """
-    path_houses = "../downloads/housing.data"
+    path_houses = "data/housing.data"
     try:
         os.remove(path_houses)
     except OSError:
