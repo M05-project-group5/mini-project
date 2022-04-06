@@ -8,8 +8,8 @@ Both datasets are downloaded from the UCI Machine Learning Repositiory.
 #Author:      Adrien Chassignet
 #Co-authir:   Cédric Mariéthoz
 #Date:        Feb 28 2022
-#Change date: Mar 3 2022 
-#Version:     1.1
+#Change date: Apr 06 2022 
+#Version:     2.0
 #Links:       https://archive.ics.uci.edu/ml/datasets/wine+quality
 #             https://archive.ics.uci.edu/ml/machine-learning-databases/housing/
 
@@ -18,7 +18,7 @@ import os
 import requests
 from requests.exceptions import RequestException
 
-download_dir = "../downloads"
+download_dir = "data"
 
 url_red_wine = ('https://archive.ics.uci.edu/ml/machine-learning-databases/'
                 'wine-quality/winequality-red.csv')

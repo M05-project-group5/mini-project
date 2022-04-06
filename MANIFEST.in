@@ -1,2 +1,2 @@
-include LICENSE README.rst requirements.txt
+include LICENSE README.rst src/data/*.csv requirements.txt
 recursive-include doc conf.py *.rst *.ico *.png

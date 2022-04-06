@@ -9,5 +9,5 @@
 .. _pypi: http://pypi.python.org
 .. _pytest: https://docs.pytest.org
 .. _sphinx: http://sphinx.pocoo.org
-.. _main-m05-ex6: https://github.com/idiap/mai-m05-ex6
+.. _mai-m05-ex6: https://github.com/idiap/mai-m05-ex6
 .. _COVERALLS: https://coveralls.io/github/M05-project-group5/mini-project?branch=main
