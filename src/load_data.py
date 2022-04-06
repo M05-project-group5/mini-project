@@ -14,9 +14,9 @@ Because the datasets are under the download folder.
 import pandas as pd
 
 import pkg_resources
-DATAFILE_WHITE_WINE = pkg_resources.resource_filename(__name__, "./data/winequality-white.csv")
-DATAFILE_RED_WINE = pkg_resources.resource_filename(__name__, "./data/winequality-red.csv")
-DATAFILE_HOUSE = pkg_resources.resource_filename(__name__, "./data/housing.data")
+DATAFILE_WHITE_WINE = pkg_resources.resource_filename(__name__, "data/winequality-white.csv")
+DATAFILE_RED_WINE = pkg_resources.resource_filename(__name__, "data/winequality-red.csv")
+DATAFILE_HOUSE = pkg_resources.resource_filename(__name__, "data/housing.data")
 
 def read_data(func, *args, **kwargs):
     """Read data file with given parsing function and arguments.
@@ -40,10 +40,10 @@ def load_wine_dataset(whitewine_file=DATAFILE_WHITE_WINE,
     ----------
     whitewine_file : string
         Relative path to the file containing the white wine quality dataset.
-        Default is "../downloads/winequality-white.csv".
+        Default is "data/winequality-white.csv".
     redwine_file : string
         Relative path to the file containing the red wine quality dataset
-        Default is "../downloads/winequality-red.csv".
+        Default is "data/winequality-red.csv".
 
     Returns
     -------
@@ -69,7 +69,7 @@ def load_houses_dataset(houses_file=DATAFILE_HOUSE):
     ----------
     houses_file : string
         Relative path to the file containing the Boston house prices dataset.
-        Default is "../downloads/housing.data".
+        Default is "data/housing.data".
     Returns
     -------
     df : pandas.DataFrame
