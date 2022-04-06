@@ -18,7 +18,7 @@ To run the unit test we use pytest_:
   ---------------------------------------------------------------------
   ======================== test session starts ========================
   ...
-  ============ 42 passed, 1 skipped, 13 warnings in 8.66s =============
+  ============ 40 passed, 2 skipped, 13 warnings in 8.66s =============
 
 If you want to know the coverage of test, you can use this command:
 
@@ -34,7 +34,7 @@ If you want to know the coverage of test, you can use this command:
   {files name}                      *      *     *%
   -------------------------------------------------
   TOTAL                             *      *     *%
-  ============ 42 passed, 1 skipped, 13 warnings in 8.66s =============
+  ============ 40 passed, 2 skipped, 13 warnings in 8.66s =============
   
 But you also can see this result in COVERALLS_.
 
