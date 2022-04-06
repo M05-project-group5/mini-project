@@ -8,10 +8,15 @@ Because the datasets are under the download folder.
 #Author:      Adrien Chassignet
 #Co-authir:   Cédric Mariéthoz
 #Date:        Feb 28 2022
-#Change date: Mar 3 2022 
-#Version:     1.1
+#Change date: Apr 06 2022 
+#Version:     2.0
 
 import pandas as pd
+
+import pkg_resources
+DATAFILE_WHITE_WINE = pkg_resources.resource_filename(__name__, "./data/winequality-white.csv")
+DATAFILE_RED_WINE = pkg_resources.resource_filename(__name__, "./data/winequality-red.csv")
+DATAFILE_HOUSE = pkg_resources.resource_filename(__name__, "./data/housing.data")
 
 def read_data(func, *args, **kwargs):
     """Read data file with given parsing function and arguments.
@@ -27,8 +32,8 @@ def read_data(func, *args, **kwargs):
     """
     return func(*args, **kwargs)
 
-def load_wine_dataset(whitewine_file="downloads/winequality-white.csv",
-                     redwine_file="downloads/winequality-red.csv"):
+def load_wine_dataset(whitewine_file=DATAFILE_WHITE_WINE,
+                     redwine_file=DATAFILE_RED_WINE):
     """Load the wine quality dataset from given files. Both dataset are merged.
 
     Parameters
@@ -57,7 +62,7 @@ def load_wine_dataset(whitewine_file="downloads/winequality-white.csv",
 
     return wine_df
 
-def load_houses_dataset(houses_file="downloads/housing.data"):
+def load_houses_dataset(houses_file=DATAFILE_HOUSE):
     """Load the Boston house prices dataset from the given file.
     
     Parameters

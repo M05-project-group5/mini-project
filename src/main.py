@@ -12,19 +12,25 @@ model fitting pipeline.
 import sys
 import os
 import argparse
-from src.download_datasets import download_wine, download_houses
-from src.load_data import load_dataset
-from src.split_data import split_data, split_x_y
-from src.preprocessing_data import (get_polynomial_features,
-                                min_max_scaling,
-                                z_normalisation)
-from src.models import ModifiedLinearReggression, ModifiedDecisionTreeRegressor
+try:
+    from . import download_datasets as dd
+    from . import load_data as ld
+    from . import split_data as sd
+    from . import preprocessing_data as pd
+    from . import models
+except:
+    import download_datasets as dd
+    import load_data as ld
+    import split_data as sd
+    import preprocessing_data as pd
+    import models
+    
 from sklearn.metrics import mean_absolute_error
 
-DATASETS = {'wine': download_wine, 'houses': download_houses}
-PREPROCESSING = {'min-max': min_max_scaling, 'z-normalisation': z_normalisation}
-MODELS =   {'linear-regression': ModifiedLinearReggression,
-            'regression-trees': ModifiedDecisionTreeRegressor}
+DATASETS = {'wine': dd.download_wine, 'houses': dd.download_houses}
+PREPROCESSING = {'min-max': pd.min_max_scaling, 'z-normalisation': pd.z_normalisation}
+MODELS =   {'linear-regression': models.ModifiedLinearReggression,
+            'regression-trees': models.ModifiedDecisionTreeRegressor}
 METRICS = {'mae': mean_absolute_error}
 #""" Documentation of global variables"""
 
@@ -82,13 +88,13 @@ def main(args=None):
         raise RuntimeError(f"{args.dataset} is invalid for --dataset. Choose "
                             f"between ({', '.join(DATASETS.keys())})")
     
-    data = load_dataset(name=args.dataset)
-    data_train, data_test = split_data(data, rs=args.seed)
+    data = ld.load_dataset(name=args.dataset)
+    data_train, data_test = sd.split_data(data, rs=args.seed)
 
     # Pre-processing
     if args.polynomial:
-        data_train = get_polynomial_features(data_train, degree=args.polynomial)
-        data_test = get_polynomial_features(data_test, degree=args.polynomial)
+        data_train = sp.get_polynomial_features(data_train, degree=args.polynomial)
+        data_test = sp.get_polynomial_features(data_test, degree=args.polynomial)
 
     try:
         data_test, data_train = PREPROCESSING[args.scaling](data_test, data_train)
@@ -97,7 +103,7 @@ def main(args=None):
                             f"between ({', '.join(PREPROCESSING.keys())})")
 
     # Train model
-    x_train, y_train = split_x_y(data_train)
+    x_train, y_train = sd.split_x_y(data_train)
     try:
         model = MODELS[args.model](random_state=args.seed, max_depth=args.depth)
         model.fit(x_train, y_train)
@@ -106,7 +112,7 @@ def main(args=None):
                             f"between ({', '.join(MODELS.keys())})")
     
     # Analyze data
-    x_test, y_test = split_x_y(data_test)
+    x_test, y_test = sd.split_x_y(data_test)
     # Inference
     y_train_predict = model.predict(x_train)
     y_test_predict = model.predict(x_test)
