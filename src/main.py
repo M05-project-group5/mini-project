@@ -82,11 +82,11 @@ def main(args=None):
         print("{:11}->".format(arg), getattr(args, arg))
 
     # Load dataset (download it if not the already the case)
-    try:
-        DATASETS[args.dataset]()
-    except KeyError:
-        raise RuntimeError(f"{args.dataset} is invalid for --dataset. Choose "
-                            f"between ({', '.join(DATASETS.keys())})")
+    # try:
+    #     DATASETS[args.dataset]()
+    # except KeyError:
+    #     raise RuntimeError(f"{args.dataset} is invalid for --dataset. Choose "
+    #                         f"between ({', '.join(DATASETS.keys())})")
     
     data = ld.load_dataset(name=args.dataset)
     data_train, data_test = sd.split_data(data, rs=args.seed)
