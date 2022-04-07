@@ -22,7 +22,7 @@ sys.path.append(os.path.abspath("../.."))
 project = 'Mini-Project'
 copyright = '2022, Chassignet Adrien, Mariéthoz Cédric'
 author = 'Chassignet Adrien, Mariéthoz Cédric'
-version = "2.0.0a1"
+version = "2.0.0"
 
 # The full version, including alpha/beta/rc tags
 release = '2021-02-22'

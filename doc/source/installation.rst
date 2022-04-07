@@ -10,7 +10,12 @@ Use pip:
 
 .. code-block:: sh
 
-    $ pip install --extra-index-url https://test.pypi.org/project/Mini-Project/ Mini-Project
-
+    $ python -m venv ~/venv                # A new env with no packages
+    $ source ~/venv/bin/activate
+    (venv) $ pip list                      # Control for no packages
+    ...
+    (venv) $ pip install --extra-index-url https://test.pypi.org/simple Mini-Project
+    (venv) $ mini-project-main
+    ...
 
 .. include:: links.rst
