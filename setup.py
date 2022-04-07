@@ -10,7 +10,7 @@ def load_requirements(f):
 
 setup(
     name="Mini-Project",
-    version="1.0.1",
+    version="2.0.0a1",
     description="Basic example of a Reproducible Research Project in Python",
     url="https://github.com/M05-project-group5/mini-project",
     license="BSD",
@@ -21,7 +21,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=load_requirements("requirements.txt"),
-    entry_points={"console_scripts": ["mini-project-main = src.main:main"]},
+    entry_points={"console_scripts": ["mini-project-main = src.main:main","mini-project-download = src.download_datasets:main"]},
     classifiers=[
         "Natural Language :: English",
         "Programming Language :: Python",
