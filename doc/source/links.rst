@@ -11,3 +11,5 @@
 .. _sphinx: http://sphinx.pocoo.org
 .. _mai-m05-ex6: https://github.com/idiap/mai-m05-ex6
 .. _COVERALLS: https://coveralls.io/github/M05-project-group5/mini-project?branch=main
+.. _winequality: https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/
+.. _housing: https://archive.ics.uci.edu/ml/machine-learning-databases/housing/
