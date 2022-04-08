@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.download_datasets &mdash; Mini-Project 2021-02-22 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Mini-Project
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">Licensing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Mini-Project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>src.download_datasets</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.download_datasets</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script downloads the Wine quality and Boston house prices datasets.</span>
+
+<span class="sd">The datasets are downloaded in the downloads/ folder.</span>
+<span class="sd">Both datasets are downloaded from the UCI Machine Learning Repositiory.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#Author:      Adrien Chassignet</span>
+<span class="c1">#Co-authir:   Cédric Mariéthoz</span>
+<span class="c1">#Date:        Feb 28 2022</span>
+<span class="c1">#Change date: Apr 06 2022 </span>
+<span class="c1">#Version:     2.0</span>
+<span class="c1">#Links:       https://archive.ics.uci.edu/ml/datasets/wine+quality</span>
+<span class="c1">#             https://archive.ics.uci.edu/ml/machine-learning-databases/housing/</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="k">import</span> <span class="n">RequestException</span>
+
+<span class="n">download_dir</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span>
+
+<span class="n">url_red_wine</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://archive.ics.uci.edu/ml/machine-learning-databases/&#39;</span>
+                <span class="s1">&#39;wine-quality/winequality-red.csv&#39;</span><span class="p">)</span>
+<span class="n">url_white_wine</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://archive.ics.uci.edu/ml/machine-learning-databases/&#39;</span>
+                  <span class="s1">&#39;wine-quality/winequality-white.csv&#39;</span><span class="p">)</span>
+<span class="n">url_house_prices</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://archive.ics.uci.edu/ml/machine-learning-databases/&#39;</span>
+                    <span class="s1">&#39;housing/housing.data&#39;</span><span class="p">)</span>
+<span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">url_red_wine</span><span class="p">,</span> <span class="n">url_white_wine</span><span class="p">,</span> <span class="n">url_house_prices</span><span class="p">]</span>
+
+<div class="viewcode-block" id="download_wine"><a class="viewcode-back" href="../../api.html#src.download_datasets.download_wine">[docs]</a><span class="k">def</span> <span class="nf">download_wine</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Download the 2 wine quality datasets in a data/ folder if the files</span>
+<span class="sd">    do not exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">((</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">download_dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">url_red_wine</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="ow">or</span>
+            <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">download_dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">url_white_wine</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))):</span>
+        <span class="n">download_url</span><span class="p">(</span><span class="n">url_red_wine</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">)</span>
+        <span class="n">download_url</span><span class="p">(</span><span class="n">url_white_wine</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Wine datasets downloaded.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="download_houses"><a class="viewcode-back" href="../../api.html#src.download_datasets.download_houses">[docs]</a><span class="k">def</span> <span class="nf">download_houses</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Download the Boston house prices dataset in the data/ folder if the</span>
+<span class="sd">    file does not exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">download_dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">url_house_prices</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">download_url</span><span class="p">(</span><span class="n">url_house_prices</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Boston house prices dataset downloaded.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="download_url"><a class="viewcode-back" href="../../api.html#src.download_datasets.download_url">[docs]</a><span class="k">def</span> <span class="nf">download_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Download file from input url in the given directory folder.</span>
+
+<span class="sd">    The file is named after its name contained at the end of the url.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    url : string</span>
+<span class="sd">        Url to download the data.</span>
+<span class="sd">    directory : string</span>
+<span class="sd">        Name of the directory where the downloaded files will be saved</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloading from &quot;</span> <span class="o">+</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot; folder has been created.&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">directory</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Download script starting...&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
+        <span class="n">download_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All the datasets has been downloaded in the </span><span class="si">{0}</span><span class="s2">/ folder&quot;</span>
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">download_dir</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chassignet Adrien, Mariéthoz Cédric.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

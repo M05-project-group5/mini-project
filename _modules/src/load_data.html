@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.load_data &mdash; Mini-Project 2021-02-22 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Mini-Project
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">Licensing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Mini-Project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>src.load_data</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.load_data</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script reads datas from the Wine quality and Boston&#39;s house prices datasets.</span>
+
+<span class="sd">Before download_datasets was run successfully at least once.</span>
+<span class="sd">Because the datasets are under the download folder.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#Author:      Adrien Chassignet</span>
+<span class="c1">#Co-authir:   Cédric Mariéthoz</span>
+<span class="c1">#Date:        Feb 28 2022</span>
+<span class="c1">#Change date: Apr 06 2022 </span>
+<span class="c1">#Version:     2.0</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="n">DATAFILE_WHITE_WINE</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;data/winequality-white.csv&quot;</span><span class="p">)</span>
+<span class="n">DATAFILE_RED_WINE</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;data/winequality-red.csv&quot;</span><span class="p">)</span>
+<span class="n">DATAFILE_HOUSE</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;data/housing.data&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../../api.html#src.load_data.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read data file with given parsing function and arguments.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">        Loaded data from the given file in arguments.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">        df = read_data(pd.read_csv, filepath_or_buffer=filename.csv, sep=&#39;;&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="load_wine_dataset"><a class="viewcode-back" href="../../api.html#src.load_data.load_wine_dataset">[docs]</a><span class="k">def</span> <span class="nf">load_wine_dataset</span><span class="p">(</span><span class="n">whitewine_file</span><span class="o">=</span><span class="n">DATAFILE_WHITE_WINE</span><span class="p">,</span>
+                     <span class="n">redwine_file</span><span class="o">=</span><span class="n">DATAFILE_RED_WINE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load the wine quality dataset from given files. Both dataset are merged.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    whitewine_file : string</span>
+<span class="sd">        Relative path to the file containing the white wine quality dataset.</span>
+<span class="sd">        Default is &quot;data/winequality-white.csv&quot;.</span>
+<span class="sd">    redwine_file : string</span>
+<span class="sd">        Relative path to the file containing the red wine quality dataset</span>
+<span class="sd">        Default is &quot;data/winequality-red.csv&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">        Wine quality loaded data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Read the two type of wine datasets</span>
+    <span class="n">redwine_df</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">,</span> <span class="n">redwine_file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+    <span class="n">whitewine_df</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">,</span> <span class="n">whitewine_file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+    <span class="c1"># Concatenate the two type of wine datasets</span>
+    <span class="n">wine_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">redwine_df</span><span class="p">,</span> <span class="n">whitewine_df</span><span class="p">])</span>
+    <span class="c1"># Quality check</span>
+    <span class="n">quality_check</span><span class="p">(</span><span class="n">wine_df</span><span class="p">)</span>
+    <span class="c1"># Remove wines with unvalid quality scores</span>
+    <span class="n">wine_df</span> <span class="o">=</span> <span class="n">wine_df</span><span class="p">[</span><span class="n">wine_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">inclusive</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">wine_df</span></div>
+
+<div class="viewcode-block" id="load_houses_dataset"><a class="viewcode-back" href="../../api.html#src.load_data.load_houses_dataset">[docs]</a><span class="k">def</span> <span class="nf">load_houses_dataset</span><span class="p">(</span><span class="n">houses_file</span><span class="o">=</span><span class="n">DATAFILE_HOUSE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load the Boston house prices dataset from the given file.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    houses_file : string</span>
+<span class="sd">        Relative path to the file containing the Boston house prices dataset.</span>
+<span class="sd">        Default is &quot;data/housing.data&quot;.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">        Boston house prices loaded data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Read the two type of wine datasets</span>
+    <span class="n">houses_df</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">,</span> <span class="n">houses_file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Quality check</span>
+    <span class="n">quality_check</span><span class="p">(</span><span class="n">houses_df</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">houses_df</span></div>
+
+<div class="viewcode-block" id="load_dataset"><a class="viewcode-back" href="../../api.html#src.load_data.load_dataset">[docs]</a><span class="k">def</span> <span class="nf">load_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;wine&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load the dataset given by its name &#39;wine&#39; or &#39;houses&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">        Loaded dataset.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;wine&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">load_wine_dataset</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;houses&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">load_houses_dataset</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="s2">&quot;Dataset name unknown.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="quality_check"><a class="viewcode-back" href="../../api.html#src.load_data.quality_check">[docs]</a><span class="k">def</span> <span class="nf">quality_check</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform quality checks on the given pd.DataFrame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: pd.DataFrame</span>
+<span class="sd">        Dataset in pandas format to check.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Remove rows with missing values</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="c1"># Remove duplicated rows</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chassignet Adrien, Mariéthoz Cédric.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.main &mdash; Mini-Project 2021-02-22 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Mini-Project
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">Licensing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Mini-Project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>src.main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.main</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This script parse the command-line arguments to select block components of the </span>
+<span class="sd">model fitting pipeline.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#Author:      Adrien Chassignet</span>
+<span class="c1">#Co-authir:   Cédric Mariéthoz</span>
+<span class="c1">#Date:        Feb 28 2022</span>
+<span class="c1">#Change date: Mar 3 2022 </span>
+<span class="c1">#Version:     1.1</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">download_datasets</span> <span class="k">as</span> <span class="n">dd</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">load_data</span> <span class="k">as</span> <span class="n">ld</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">split_data</span> <span class="k">as</span> <span class="n">sd</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">preprocessing_data</span> <span class="k">as</span> <span class="n">pd</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">models</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">download_datasets</span> <span class="k">as</span> <span class="nn">dd</span>
+    <span class="kn">import</span> <span class="nn">load_data</span> <span class="k">as</span> <span class="nn">ld</span>
+    <span class="kn">import</span> <span class="nn">split_data</span> <span class="k">as</span> <span class="nn">sd</span>
+    <span class="kn">import</span> <span class="nn">preprocessing_data</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="kn">import</span> <span class="nn">models</span>
+    
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">mean_absolute_error</span>
+
+<span class="n">DATASETS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;wine&#39;</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">download_wine</span><span class="p">,</span> <span class="s1">&#39;houses&#39;</span><span class="p">:</span> <span class="n">dd</span><span class="o">.</span><span class="n">download_houses</span><span class="p">}</span>
+<span class="n">PREPROCESSING</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;min-max&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">min_max_scaling</span><span class="p">,</span> <span class="s1">&#39;z-normalisation&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">z_normalisation</span><span class="p">}</span>
+<span class="n">MODELS</span> <span class="o">=</span>   <span class="p">{</span><span class="s1">&#39;linear-regression&#39;</span><span class="p">:</span> <span class="n">models</span><span class="o">.</span><span class="n">ModifiedLinearReggression</span><span class="p">,</span>
+            <span class="s1">&#39;regression-trees&#39;</span><span class="p">:</span> <span class="n">models</span><span class="o">.</span><span class="n">ModifiedDecisionTreeRegressor</span><span class="p">}</span>
+<span class="n">METRICS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mae&#39;</span><span class="p">:</span> <span class="n">mean_absolute_error</span><span class="p">}</span>
+<span class="c1">#&quot;&quot;&quot; Documentation of global variables&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="get_cl_args"><a class="viewcode-back" href="../../api.html#src.main.get_cl_args">[docs]</a><span class="k">def</span> <span class="nf">get_cl_args</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse the command line (sys.argv) to select elements of the pipeline.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    args : class &#39;argparse.Namespace&#39;</span>
+<span class="sd">        The populated Namespace of the arguments. Each string argument is an </span>
+<span class="sd">        attribute of the namespace.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Analyze datasets with ML &#39;</span>
+                                    <span class="s1">&#39;regression techniques.&#39;</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="s1">&#39;--dataset&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">DATASETS</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Dataset to use between wine quality and Boston &#39;</span>
+                        <span class="s1">&#39;house prices datasets.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">DATASETS</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--seed&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Seed for the pseudo-RNG used to split the data &#39;</span>
+                        <span class="s1">&#39;and to initialize the models. &#39;</span>
+                        <span class="s1">&#39;If no seed is given by the user, the system will be &#39;</span>
+                        <span class="s1">&#39;fully random.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--scaling&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">PREPROCESSING</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Select the scaling pre-processing technique to &#39;</span>
+                        <span class="s1">&#39;apply to the features.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">PREPROCESSING</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--polynomial&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Use polynomial features with given degree instead&#39;</span>
+                        <span class="s1">&#39; of orginial ones for pre-processing&#39;</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="s1">&#39;--model&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">MODELS</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Select the ML model that will be used to analyze &#39;</span>
+                        <span class="s1">&#39;the data.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">MODELS</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--depth&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Maximum depth of the tree when using regression &#39;</span>
+                        <span class="s1">&#39;trees.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--metrics&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">METRICS</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Choose the metrics used as a measure of success &#39;</span>
+                        <span class="s1">&#39;of the chosen model.&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">METRICS</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+    
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">args</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">get_cl_args</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:11}</span><span class="s2">-&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg</span><span class="p">))</span>
+
+    <span class="c1"># Load dataset</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">dataset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DATASETS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{args.dataset}</span><span class="s2"> is invalid for --dataset. Choose &quot;</span>
+                         <span class="n">f</span><span class="s2">&quot;between ({&#39;, &#39;.join(DATASETS.keys())})&quot;</span><span class="p">)</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">ld</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">split_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">rs</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># Pre-processing</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">polynomial</span><span class="p">:</span>
+        <span class="n">data_train</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">get_polynomial_features</span><span class="p">(</span><span class="n">data_train</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">polynomial</span><span class="p">)</span>
+        <span class="n">data_test</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">get_polynomial_features</span><span class="p">(</span><span class="n">data_test</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">polynomial</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data_test</span><span class="p">,</span> <span class="n">data_train</span> <span class="o">=</span> <span class="n">PREPROCESSING</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">scaling</span><span class="p">](</span><span class="n">data_test</span><span class="p">,</span> <span class="n">data_train</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{args.scaling}</span><span class="s2"> is invalid for --scaling. Choose &quot;</span>
+                            <span class="n">f</span><span class="s2">&quot;between ({&#39;, &#39;.join(PREPROCESSING.keys())})&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Train model</span>
+    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">split_x_y</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">MODELS</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">model</span><span class="p">](</span><span class="n">random_state</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{args.model}</span><span class="s2"> is invalid for --model. Choose &quot;</span>
+                            <span class="n">f</span><span class="s2">&quot;between ({&#39;, &#39;.join(MODELS.keys())})&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Analyze data</span>
+    <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">split_x_y</span><span class="p">(</span><span class="n">data_test</span><span class="p">)</span>
+    <span class="c1"># Inference</span>
+    <span class="n">y_train_predict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+    <span class="n">y_test_predict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+    <span class="c1">#Evaluation</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;===============================&#39;</span><span class="p">)</span>
+        <span class="n">train_figure_of_merit</span> <span class="o">=</span> <span class="n">METRICS</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">metrics</span><span class="p">](</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_predict</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;On the train set: </span><span class="se">\n</span><span class="si">{args.metrics}</span><span class="s2"> = </span><span class="si">{train_figure_of_merit}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">test_figure_of_merit</span> <span class="o">=</span> <span class="n">METRICS</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">metrics</span><span class="p">](</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_test_predict</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;On the test set: </span><span class="se">\n</span><span class="si">{args.metrics}</span><span class="s2"> = </span><span class="si">{test_figure_of_merit}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{args.metrics}</span><span class="s2"> is invalid for --metrics. Choose &quot;</span>
+                            <span class="n">f</span><span class="s2">&quot;between ({&#39;, &#39;.join(METRICS.keys())})&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="c1"># Parse command line arguments</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">get_cl_args</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chassignet Adrien, Mariéthoz Cédric.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

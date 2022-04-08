@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Guide &mdash; Mini-Project 2021-02-22 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Mini-Project
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#default-pipeline">Default pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-pipeline">Custom pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licensing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mini-Project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>User Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/guide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="user-guide">
+<span id="doc-guide"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline"></a></h1>
+<p>This package allows you to run a machine learning model on a given dataset with
+several parameters that can be tuned.</p>
+<p>The current options available for the pipeline can be seen with the help function:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ mini-project-main -h
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="p">{</span><span class="n">wine</span><span class="p">,</span><span class="n">houses</span><span class="p">}]</span> <span class="p">[</span><span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">scaling</span> <span class="p">{</span><span class="nb">min</span><span class="o">-</span><span class="nb">max</span><span class="p">,</span><span class="n">z</span><span class="o">-</span><span class="n">normalisation</span><span class="p">}]</span> <span class="p">[</span><span class="o">--</span><span class="n">polynomial</span><span class="p">]</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="p">{</span><span class="n">linear</span><span class="o">-</span><span class="n">regression</span><span class="p">,</span><span class="n">regression</span><span class="o">-</span><span class="n">trees</span><span class="p">}]</span> <span class="p">[</span><span class="o">--</span><span class="n">metrics</span> <span class="p">{</span><span class="n">mae</span><span class="p">}]</span>
+
+<span class="n">Analyze</span> <span class="n">datasets</span> <span class="k">with</span> <span class="n">ML</span> <span class="n">regression</span> <span class="n">techniques</span><span class="o">.</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+<span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+<span class="o">-</span><span class="n">d</span> <span class="p">{</span><span class="n">wine</span><span class="p">,</span><span class="n">houses</span><span class="p">},</span> <span class="o">--</span><span class="n">dataset</span> <span class="p">{</span><span class="n">wine</span><span class="p">,</span><span class="n">houses</span><span class="p">}</span>
+                        <span class="n">Dataset</span> <span class="n">to</span> <span class="n">use</span> <span class="n">between</span> <span class="n">wine</span> <span class="n">quality</span> <span class="ow">and</span> <span class="n">Boston</span> <span class="n">house</span> <span class="n">prices</span> <span class="n">datasets</span><span class="o">.</span>
+<span class="o">--</span><span class="n">seed</span> <span class="n">SEED</span>           <span class="n">Seed</span> <span class="k">for</span> <span class="n">the</span> <span class="n">pseudo</span><span class="o">-</span><span class="n">RNG</span> <span class="n">used</span> <span class="n">to</span> <span class="n">split</span> <span class="n">the</span> <span class="n">data</span> <span class="ow">and</span> <span class="n">to</span> <span class="n">initialize</span> <span class="n">the</span> <span class="n">models</span><span class="o">.</span> <span class="n">If</span> <span class="n">no</span> <span class="n">seed</span> <span class="ow">is</span> <span class="n">given</span>
+                        <span class="n">by</span> <span class="n">the</span> <span class="n">user</span><span class="p">,</span> <span class="n">the</span> <span class="n">system</span> <span class="n">will</span> <span class="n">be</span> <span class="n">fully</span> <span class="n">random</span><span class="o">.</span>
+<span class="o">--</span><span class="n">scaling</span> <span class="p">{</span><span class="nb">min</span><span class="o">-</span><span class="nb">max</span><span class="p">,</span><span class="n">z</span><span class="o">-</span><span class="n">normalisation</span><span class="p">}</span>
+                        <span class="n">Select</span> <span class="n">the</span> <span class="n">scaling</span> <span class="n">pre</span><span class="o">-</span><span class="n">processing</span> <span class="n">technique</span> <span class="n">to</span> <span class="n">apply</span> <span class="n">to</span> <span class="n">the</span> <span class="n">features</span><span class="o">.</span>
+<span class="o">--</span><span class="n">polynomial</span>          <span class="n">Use</span> <span class="n">polynomial</span> <span class="n">features</span> <span class="n">instead</span> <span class="n">of</span> <span class="n">orginial</span> <span class="n">ones</span> <span class="k">for</span> <span class="n">pre</span><span class="o">-</span><span class="n">processing</span>
+<span class="o">-</span><span class="n">m</span> <span class="p">{</span><span class="n">linear</span><span class="o">-</span><span class="n">regression</span><span class="p">,</span><span class="n">regression</span><span class="o">-</span><span class="n">trees</span><span class="p">},</span> <span class="o">--</span><span class="n">model</span> <span class="p">{</span><span class="n">linear</span><span class="o">-</span><span class="n">regression</span><span class="p">,</span><span class="n">regression</span><span class="o">-</span><span class="n">trees</span><span class="p">}</span>
+                        <span class="n">Select</span> <span class="n">the</span> <span class="n">ML</span> <span class="n">model</span> <span class="n">that</span> <span class="n">will</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">analyze</span> <span class="n">the</span> <span class="n">data</span><span class="o">.</span>
+<span class="o">--</span><span class="n">metrics</span> <span class="p">{</span><span class="n">mae</span><span class="p">}</span>       <span class="n">Choose</span> <span class="n">the</span> <span class="n">metrics</span> <span class="n">used</span> <span class="k">as</span> <span class="n">a</span> <span class="n">measure</span> <span class="n">of</span> <span class="n">success</span> <span class="n">of</span> <span class="n">the</span> <span class="n">chosen</span> <span class="n">model</span><span class="o">.</span>
+</pre></div>
+</div>
+<section id="default-pipeline">
+<h2>Default pipeline<a class="headerlink" href="#default-pipeline" title="Permalink to this headline"></a></h2>
+<p>To run the pipeline with the default arguments, run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ mini-project-main
+</pre></div>
+</div>
+<p>In this case you are performing linear regression on the Wine quality dataset.
+If you fix the seed to 0 to be reproducible you should have the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span>    <span class="o">-&gt;</span> <span class="n">wine</span>
+<span class="n">seed</span>       <span class="o">-&gt;</span> <span class="mi">0</span>
+<span class="n">scaling</span>    <span class="o">-&gt;</span> <span class="nb">min</span><span class="o">-</span><span class="nb">max</span>
+<span class="n">polynomial</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<span class="n">model</span>      <span class="o">-&gt;</span> <span class="n">linear</span><span class="o">-</span><span class="n">regression</span>
+<span class="n">depth</span>      <span class="o">-&gt;</span> <span class="kc">None</span>
+<span class="n">metrics</span>    <span class="o">-&gt;</span> <span class="n">maep</span>
+<span class="o">===============================</span>
+<span class="n">On</span> <span class="n">the</span> <span class="n">train</span> <span class="nb">set</span><span class="p">:</span>
+<span class="n">mae</span> <span class="o">=</span> <span class="mf">0.09332051454292202</span>
+<span class="n">On</span> <span class="n">the</span> <span class="n">test</span> <span class="nb">set</span><span class="p">:</span>
+<span class="n">mae</span> <span class="o">=</span> <span class="mf">0.09469832898909902</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-pipeline">
+<h2>Custom pipeline<a class="headerlink" href="#custom-pipeline" title="Permalink to this headline"></a></h2>
+<p>Using command-line arguments you can select different parameters or building
+blocks of the pipeline. To check the available options look at the helper function.</p>
+<p>For example, to run a regression trees model on the Boston house prices dataset
+with a given seed, run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ mini-project-main -d houses -m regression-trees --seed <span class="m">0</span>
+</pre></div>
+</div>
+<p>An example of a fully customized pipeline is:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ mini-project-main -d wine -m regression-trees --seed <span class="m">0</span> --depth <span class="m">10</span> --scaling min-max --polynomial <span class="m">3</span> --metrics mae
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Chassignet Adrien, Mariéthoz Cédric.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
